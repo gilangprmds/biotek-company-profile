@@ -3,22 +3,26 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Services from "./components/Services";
-import Intro from "./components/Intro";
-import Portfolio from "./components/Portofolio";
-import Footer from "./components/Footer";
+import Testimonials from "./components/Testimonial";
+import Footer2 from "./components/Footer2";
+import Contact from "./components/Contact";
+import OurWork from "./components/OurWork";
+import Hero2 from "./components/Hero2";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
+    
+        <Navbar />
       <main class="main relative">
         <Hero />
         <About />
         <Services />
-        <Intro />
-        <Portfolio />
-        <Footer />
+        <OurWork />
+        <Testimonials />
+        <Contact />
       </main>
+      <Footer2 />
     </>
   );
 }

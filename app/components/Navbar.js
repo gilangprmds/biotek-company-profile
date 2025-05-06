@@ -2,12 +2,18 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSticky, setIsSticky] = useState(false);
   const [theme, setTheme] = useState('light');
   const [activeSection, setActiveSection] = useState('home');
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const pathname = usePathname();
+  const [isSticky, setIsSticky] = pathname === '/' ? useState(false) : useState(true);
+
+
 
   // Theme Handler
   useEffect(() => {
@@ -31,7 +37,10 @@ export default function Navbar() {
   // Sticky navbar handler
   useEffect(() => {
     const handleScroll = () => {
-      setIsSticky(window.scrollY >= 72);
+        if (pathname === '/'){
+          setIsSticky(window.scrollY >= 72);
+        }
+        
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -78,12 +87,12 @@ export default function Navbar() {
                 }`}
               >
                 <ul className="block lg:flex space-x-8" role="menu" aria-label="Navigation menu">
-                  {['home', 'services', 'portfolio', 'pricing', 'team', 'contact'].map(
+                  {['home', 'about', 'services', 'contact'].map(
                     (item) => (
                       <li key={item} className="group relative">
                         <Link
-                          href={`#${item}`}
-                          className="ic-page-scroll mx-8 flex py-2 text-base font-medium text-body-light-12 group-hover:text-primary dark:text-body-dark-12 lg:mx-0 lg:inline-flex lg:px-0 lg:py-6 lg:text-primary-color lg:dark:text-primary-color lg:group-hover:text-primary-color lg:group-hover:opacity-70"
+                          href={pathname === '/' ? `#${item}` : `/#${item}`}
+                          className="ic-page-scroll mx-8 flex py-2 text-xl font-medium text-body-light-12 group-hover:text-primary dark:text-body-dark-12 lg:mx-0 lg:inline-flex lg:px-0 lg:py-6 lg:text-primary-color lg:dark:text-primary-color lg:group-hover:text-primary-color lg:group-hover:opacity-70"
                           onClick={() => setIsMenuOpen(false)}
                           role="menuitem"
                         >
@@ -92,6 +101,52 @@ export default function Navbar() {
                       </li>
                     )
                   )}
+                   {/* Dropdown "More" */}
+                   <li
+                    className="relative group"
+                    onMouseEnter={() => window.innerWidth >= 1024 && setIsMoreOpen(true)}
+                    onMouseLeave={() => window.innerWidth >= 1024 && setIsMoreOpen(false)}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (window.innerWidth < 1024) setIsMoreOpen(!isMoreOpen);
+                      }}
+                      className="ic-page-scroll mx-8 flex items-center py-2 text-xl font-medium text-body-light-12 group-hover:text-primary dark:text-body-dark-12 lg:mx-0 lg:px-0 lg:py-6 lg:text-primary-color lg:dark:text-primary-color lg:group-hover:text-primary-color lg:group-hover:opacity-70"
+                      aria-haspopup="true"
+                      aria-expanded={isMoreOpen}
+                    >
+                      More
+                      <i className={`lni lni-chevron-down ml-2 text-sm transition-transform duration-500 ${
+                        isMoreOpen ? 'rotate-180' : 'rotate-0'
+                          }`}></i>
+                    </button>
+
+                    <ul
+                      className={`absolute top-full left-0 mt-1 w-52 bg-white py-2 shadow-md transition-all duration-200 ease-out dark:bg-gray-800 ${
+                        isMoreOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+                      }`}
+                    >
+                      {[
+                        { label: 'Profile Company', href: '#profile' },
+                        { label: 'Our Product', href: '#products' },
+                        { label: 'Our Partners', href: '/partners' },
+                      ].map(({ label, href }) => (
+                        <li key={label}>
+                          <Link
+                            href={href}
+                            className="block px-5 py-2 text-base font-medium text-gray-700 hover:bg-primary-light-2 hover:text-primary dark:text-gray-200 dark:hover:bg-gray-700"
+                            onClick={() => {
+                              setIsMoreOpen(false);
+                              setIsMenuOpen(false);
+                            }}
+                          >
+                            {label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
                 </ul>
               </nav>
             </div>
@@ -115,7 +170,7 @@ export default function Navbar() {
                   className="btn-navbar ml-5 px-6 py-3 rounded-md bg-primary-color bg-opacity-20 text-base font-medium text-primary-color hover:bg-opacity-100 hover:text-primary"
                   role="button"
                 >
-                  Get Started
+                  Get a Quote
                 </Link>
               </div>
             </div>

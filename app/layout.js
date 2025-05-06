@@ -1,5 +1,14 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import AOSInitializer from "./components/AOSInitializer";
+import { Inter } from "next/font/google";
+
+
+export const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,6 +27,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <head>
@@ -113,10 +123,14 @@ export default function RootLayout({ children }) {
       href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css"
     />
     <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css" />
+    {/* <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+    </style> */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} font-sans antialiased`}
       >
+        <AOSInitializer />
         {children}
       </body>
     </html>
