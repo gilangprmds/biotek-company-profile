@@ -129,7 +129,7 @@ export default function Navbar() {
                     >
                       {[
                         { label: 'Profile Company', href: '#profile' },
-                        { label: 'Our Product', href: '#products' },
+                        { label: 'Our Product', href: '/products' },
                         { label: 'Our Partners', href: '/partners' },
                       ].map(({ label, href }) => (
                         <li key={label}>

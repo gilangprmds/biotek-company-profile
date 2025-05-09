@@ -1,14 +1,14 @@
-import Partner from "../components/Partner";
 import Footer2 from "../components/Footer2";
 import Navbar from "../components/Navbar";
+import Products from "../components/products/Products";
 
-export default function PartnerPage(){
+export default function Page(){
     return(
 <>
     
     <Navbar />
   <main class="main relative">
-   <Partner />
+    <Products />
   </main>
   <Footer2 />
 </>    );

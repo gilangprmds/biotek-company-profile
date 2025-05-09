@@ -2,10 +2,10 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-blue-900 via-sky-800 to-blue-900 backdrop-blur-3xl text-white min-h-screen flex items-center pt-24 lg:pt-0 overflow-hidden">
+    <section className="relative bg-gradient-to-t from-blue-950 via-sky-700 to-blue-950 backdrop-blur-3xl text-white min-h-screen flex items-center pt-24 lg:pt-0 overflow-hidden">
       {/* Blurred Shape */}
   <div className="absolute inset-0">
-    <div className="absolute -top-32 -left-32 w-[400px] h-[300px] rounded-full bg-sky-100 opacity-40 blur-3xl"></div>
+    <div className="absolute -top-32 -left-32 w-[500px] h-[300px] rounded-full bg-sky-100 opacity-40 blur-3xl"></div>
     <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-sky-100 opacity-40 blur-3xl"></div>
   </div>
       <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row items-center justify-between gap-10">
@@ -27,7 +27,7 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="md:max-w-[520px] max-w-[200px] w-full relative mx-auto">
+        <div className="max-w-[200px] lg:max-w-[520px]  w-full relative mx-auto">
     <Image
         src="/img/hero2.png"
         alt="Orthopedic Implant"
