@@ -220,8 +220,7 @@ export default function Partner() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {clients.map((client, index) => (
           <div
-          className="cursor-pointer shadow-xl hover:scale-110 transition px-1 w-[150px] h-[150px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color
-          grayscale dark:invert hover:grayscale-0 hover:invert-0"
+          className="cursor-pointer shadow-xl hover:scale-110 transition px-1 w-[150px] h-[150px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color"
           key={index}
           data-aos="flip-up"
           >

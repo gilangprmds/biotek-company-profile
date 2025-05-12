@@ -49,7 +49,7 @@ export default function Navbar() {
 
   return (
     <header 
-      className={`ic-navbar absolute left-0 top-0 z-40 flex w-full items-center bg-transparent ${
+      className={`ic-navbar absolute left-0 top-0 z-40 flex w-full items-center bg-blue-700 bg-opacity-95 shadow-md transition-all duration-300 ${
         isSticky ? 'sticky' : ''
       }`}
       role="banner"
@@ -60,7 +60,7 @@ export default function Navbar() {
           <div className="w-60 lg:w-56 max-w-full px-5">
             <Link href="/" className="ic-navbar-logo block w-full py-5 text-primary-color">
               <Image
-                src="/logo.png"
+                src="/img/logo.png"
                 alt="Company Logo"
                 width={200} // atur sesuai ukuran yang kamu inginkan
                 height={50}
@@ -101,52 +101,27 @@ export default function Navbar() {
                       </li>
                     )
                   )}
-                   {/* Dropdown "More" */}
-                   <li
-                    className="relative group"
-                    onMouseEnter={() => window.innerWidth >= 1024 && setIsMoreOpen(true)}
-                    onMouseLeave={() => window.innerWidth >= 1024 && setIsMoreOpen(false)}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (window.innerWidth < 1024) setIsMoreOpen(!isMoreOpen);
-                      }}
-                      className="ic-page-scroll mx-8 flex items-center py-2 text-xl font-medium text-body-light-12 group-hover:text-primary dark:text-body-dark-12 lg:mx-0 lg:px-0 lg:py-6 lg:text-primary-color lg:dark:text-primary-color lg:group-hover:text-primary-color lg:group-hover:opacity-70"
-                      aria-haspopup="true"
-                      aria-expanded={isMoreOpen}
-                    >
-                      More
-                      <i className={`lni lni-chevron-down ml-2 text-sm transition-transform duration-500 ${
-                        isMoreOpen ? 'rotate-180' : 'rotate-0'
-                          }`}></i>
-                    </button>
-
-                    <ul
-                      className={`absolute top-full left-0 mt-1 w-52 bg-white py-2 shadow-md transition-all duration-200 ease-out dark:bg-gray-800 ${
-                        isMoreOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
-                      }`}
-                    >
-                      {[
-                        { label: 'Profile Company', href: '#profile' },
-                        { label: 'Our Product', href: '/products' },
-                        { label: 'Our Partners', href: '/partners' },
-                      ].map(({ label, href }) => (
-                        <li key={label}>
-                          <Link
-                            href={href}
-                            className="block px-5 py-2 text-base font-medium text-gray-700 hover:bg-primary-light-2 hover:text-primary dark:text-gray-200 dark:hover:bg-gray-700"
-                            onClick={() => {
-                              setIsMoreOpen(false);
-                              setIsMenuOpen(false);
-                            }}
-                          >
-                            {label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
+<li className="group relative">
+  <Link
+    href="/products"
+    className="ic-page-scroll mx-8 flex py-2 text-xl font-medium text-body-light-12 group-hover:text-primary dark:text-body-dark-12 lg:mx-0 lg:inline-flex lg:px-0 lg:py-6 lg:text-primary-color lg:dark:text-primary-color lg:group-hover:text-primary-color lg:group-hover:opacity-70"
+    onClick={() => setIsMenuOpen(false)}
+    role="menuitem"
+  >
+    Our Product
+  </Link>
+</li>
+<li className="group relative">
+  <Link
+    href="/partners"
+    className="ic-page-scroll mx-8 flex py-2 text-xl font-medium text-body-light-12 group-hover:text-primary dark:text-body-dark-12 lg:mx-0 lg:inline-flex lg:px-0 lg:py-6 lg:text-primary-color lg:dark:text-primary-color lg:group-hover:text-primary-color lg:group-hover:opacity-70"
+    onClick={() => setIsMenuOpen(false)}
+    role="menuitem"
+  >
+    Our Partners
+  </Link>
+</li>
+                  
                 </ul>
               </nav>
             </div>

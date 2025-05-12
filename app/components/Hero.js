@@ -1,43 +1,30 @@
-import Image from 'next/image';
-
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-t from-blue-950 via-sky-700 to-blue-950 backdrop-blur-3xl text-white min-h-screen flex items-center pt-24 lg:pt-0 overflow-hidden">
-      {/* Blurred Shape */}
-  <div className="absolute inset-0">
-    <div className="absolute -top-32 -left-32 w-[500px] h-[300px] rounded-full bg-sky-100 opacity-40 blur-3xl"></div>
-    <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-sky-100 opacity-40 blur-3xl"></div>
-  </div>
-      <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row items-center justify-between gap-10">
-        {/* Left - Text */}
-        <div className="text-center lg:text-left max-w-xl" data-aos="fade-right">
-          <h1 className="tmb-6 text-3xl font-bold leading-snug text-primary-color sm:text-4xl sm:leading-snug lg:text-5xl lg:leading-tight">
-            The Best Choice <br />
-            For a Healthier Future
-          </h1>
-          <p class="mx-auto mb-9 max-w-[600px] text-base text-primary-color sm:text-lg sm:leading-normal"
-          >
-            Health is a basic human need to be able to live productively. Create your healthy space with our products.
-          </p>
-          <a
-            href="#"
-            className="inline-block bg-white text-[#367DC1] font-semibold px-6 py-3 rounded-md hover:bg-gray-100 transition"
-          >
-            Learn More
-          </a>
-        </div>
+    <section
+      className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-6 py-24"
+      style={{
+        backgroundImage: "url('/img/hero-bg.png')", // replace with your image path
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-white bg-opacity-80"></div>
 
-        <div className="max-w-[200px] lg:max-w-[520px]  w-full relative mx-auto">
-    <Image
-        src="/img/hero2.png"
-        alt="Orthopedic Implant"
-        width={700}
-        height={700}
-        className="w-full h-auto object-cover"
-    />
-</div>
+      {/* Content */}
+      <div className="text-center relative z-10 max-w-2xl">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
+          The Best Choice<br />
+          For a Healthier Future
+        </h1>
+        <p className="text-lg sm:text-xl text-gray-700 mb-8">
+          Empower your health journey with products designed for well-being and longevity.
+        </p>
+        <a
+          href="#"
+          className="inline-block bg-[#367DC1] text-white font-semibold px-8 py-3 rounded-md hover:bg-blue-700 transition"
+        >
+          Learn More
+        </a>
       </div>
-      
     </section>
   );
 }

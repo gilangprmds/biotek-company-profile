@@ -6,6 +6,7 @@ const tabs = [
   {
     id: 'profile',
     label: 'Our Profile',
+    image: '/img/about.png',
     content: (
       <>
         <p>
@@ -26,6 +27,7 @@ const tabs = [
   {
     id: 'vision',
     label: 'Our Vision',
+    image: '/img/about2.png',
     content: (
       <>
         <p>
@@ -39,6 +41,7 @@ const tabs = [
   {
     id: 'history',
     label: 'Our History',
+    image: '/img/about3.png',
     content: (
       <>
         <p>
@@ -73,11 +76,13 @@ export default function AboutTabs() {
           <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 items-center">
             <div className="w-full max-w-[480px] mx-auto" data-aos="fade-right">
               <Image
-                src="/img/about.png"
+                src={tabs.find((tab) => tab.id === activeTab)?.image || '/img/about.png'}
                 alt="About image"
                 width={480}
                 height={400}
-                className="rounded-xl w-full h-auto"
+                className={`rounded-xl w-full h-auto transition-opacity duration-300 ${
+                isFading ? 'opacity-0' : 'opacity-100'
+                  }`}
               />
             </div>
   
