@@ -8,12 +8,13 @@ import Footer2 from "./components/Footer2";
 import Contact from "./components/Contact";
 import OurWork from "./components/OurWork";
 import Hero2 from "./components/Hero2";
+import Navbar2 from "./components/Navbar2";
 
 export default function Home() {
   return (
     <>
     
-        <Navbar />
+        <Navbar2 />
       <main class="main relative">
         <Hero />
         <About />

@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section
+    <section id="home"
       className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-6 py-24"
       style={{
         backgroundImage: "url('/img/hero-bg.png')", // replace with your image path
@@ -19,8 +19,8 @@ export default function Hero() {
           Empower your health journey with products designed for well-being and longevity.
         </p>
         <a
-          href="#"
-          className="inline-block bg-[#367DC1] text-white font-semibold px-8 py-3 rounded-md hover:bg-blue-700 transition"
+          href="#about"
+          className="inline-block bg-[#367DC1] text-white font-semibold px-8 py-3 rounded-md hover:bg-blue-700 hover:text-white transition"
         >
           Learn More
         </a>
