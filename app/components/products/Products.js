@@ -5,12 +5,16 @@ import { products } from "@/lib/products/products";
 import Image from "next/image";
 import Link from "next/link";
 import Breadcrumb from '../Breadcrumb';
+import { useSearchParams } from 'next/navigation';
 
 export default function Products() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get('search') || "";
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState("All Product");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
+  
 
   const categories = [
     "All Product",
@@ -105,6 +109,14 @@ export default function Products() {
             </div>
             
             {currentProducts.length > 0 ? (
+              <>
+              {/* Result Summary */}
+              {searchQuery && (
+                <p className="text-sm text-gray-600 mb-2 mx-4">
+                  {filteredProducts.length} result{filteredProducts.length > 1 ? "s" : ""} found for "<span className="font-semibold">{searchQuery}</span>"
+                </p>
+              )}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-2">
                 {currentProducts.map((product) => (
                   <div
@@ -135,9 +147,10 @@ export default function Products() {
                   </div>
                 ))}
               </div>
+              </>
             ) : (
               <div className="text-center text-gray-500 py-12">
-                Tidak ada produk yang ditemukan.
+                No products found for "<span className="font-semibold">{searchQuery}</span>".
               </div>
             )}
 

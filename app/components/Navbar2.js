@@ -11,8 +11,19 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState(pathname === '/' ? 'home' : '');
   const router = useRouter();
   const [isSticky, setIsSticky] =  useState(pathname !== '/' ? true : false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
-
+  
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      router.push(`/products?search=${encodeURIComponent(searchInput.trim())}`);
+      setIsSearchModalOpen(false);
+      setSearchInput("");
+      setIsMenuOpen(false);
+    }
+  };
 
   // Toggle mobile menu
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -78,6 +89,7 @@ export default function Navbar() {
   ];
 
   return (
+    <>
     <header
       className={`ic-navbar z-40 left-0 w-full transition-all duration-300 ${
         isSticky
@@ -102,6 +114,26 @@ export default function Navbar() {
               />
             </Link>
           </div>
+
+          <button
+                onClick={() => setIsSearchModalOpen(true)}
+                aria-label="Open search modal"
+                className="ml-auto mr-4 mb-2 text-gray-600 dark:text-white hover:text-blue-600 transition lg:hidden"
+                >
+                <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
+                    />
+                </svg>
+            </button>
 
           {/* Mobile Menu Toggle */}
           <button
@@ -131,7 +163,7 @@ export default function Navbar() {
                     >
                       {name}
                       <span
-                        className={`absolute left-1/2 -bottom-2 h-[2px] bg-blue-700 transform -translate-x-1/2 origin-center transition-all duration-700 ease-in-out ${
+                        className={`absolute left-1/2 -bottom-2 h-[3px] bg-blue-700 transform -translate-x-1/2 origin-center transition-all duration-700 ease-in-out ${
                           activeSection === id ? 'w-full' : 'w-0 group-hover:w-full'
                         }`}
                       />
@@ -146,8 +178,8 @@ export default function Navbar() {
                     >
                       {name}
                       <span
-                        className={`absolute left-1/2 -bottom-2 h-[2px] bg-blue-700 transform -translate-x-1/2 origin-center transition-all duration-700 ease-in-out ${
-                          pathname === path ? 'w-full' : 'w-0 group-hover:w-full'
+                        className={`absolute left-1/2 -bottom-2 h-[3px] bg-blue-700 transform -translate-x-1/2 origin-center transition-all duration-700 ease-in-out ${
+                          pathname.startsWith(`${path}`) ? 'w-full' : 'w-0 group-hover:w-full'
                         }`}
                       />
                     </Link>
@@ -170,6 +202,26 @@ export default function Navbar() {
 
           {/* Right Side Icons */}
           <div className="hidden lg:flex items-center gap-4 pr-4">
+            <button
+                onClick={() => setIsSearchModalOpen(true)}
+                aria-label="Open search modal"
+                className="text-gray-600 dark:text-white hover:text-blue-600 transition"
+                >
+                <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
+                    />
+                </svg>
+            </button>
+
 
             {/* CTA Button */}
             <a
@@ -183,5 +235,50 @@ export default function Navbar() {
         </div>
       </div>
     </header>
+
+    {/* Search Modal */}
+    {isSearchModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" >
+                <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-md mx-4 relative" data-aos="zoom-in">
+                {/* Close button */}
+                <button
+                    onClick={() => setIsSearchModalOpen(false)}
+                    className="absolute top-0 right-2 text-xl font-bold text-gray-600 dark:text-white hover:text-blue-600"
+                    aria-label="Close search modal"
+                >
+                    &times;
+                </button>
+
+                <form onSubmit={handleSearchSubmit} className="relative w-full">
+                    <input
+                        type="text"
+                        placeholder="Search products..."
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        className="px-4 w-full py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <button
+                        type="submit"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
+                    >
+                        <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
+                        />
+                        </svg>
+                    </button>
+                </form>
+                </div>
+            </div>
+            )}
+    </>
   );
 }
