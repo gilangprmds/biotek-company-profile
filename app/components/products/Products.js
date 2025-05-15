@@ -132,8 +132,8 @@ export default function Products() {
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <div className="pt-4 min-h-[80px]">
-                      <p className="text-base font-bold text-gray-800 mb-2">{product.name}</p>
+                    <div className="pt-4 min-h-[80px] place-content-center">
+                      <p className="text-sm text-center font-medium text-gray-800 mb-2">{product.name}</p>
                     </div>
                     <Link
                       href={`/products/${product.slug}`}
