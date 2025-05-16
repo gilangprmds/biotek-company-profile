@@ -29,16 +29,16 @@ export default function Footer2(){
 				<h6 className="tracking-wide uppercase text-gray-50 dark:text-gray-900">Product</h6>
 				<ul className="space-y-1">
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">Features</a>
+					<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "All Product" } }}>All Products</Link>
 					</li>
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">Integrations</a>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Hip Stem" } }}>Hip Stem</Link>
 					</li>
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">Pricing</a>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Knee Stem" } }}>Knee Stem</Link>
 					</li>
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">FAQ</a>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Others" } }}>Others</Link>
 					</li>
 				</ul>
 			</div>
@@ -46,24 +46,30 @@ export default function Footer2(){
 				<h6 className="tracking-wide uppercase text-gray-50 dark:text-gray-900">Company</h6>
 				<ul className="space-y-1">
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">Privacy</a>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#about">About Us</Link>
 					</li>
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">Terms of Service</a>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#services">Services</Link>
+					</li>
+					<li>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#testimonials">Testimonials</Link>
+					</li>
+					<li>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#contact">Contact Us</Link>
 					</li>
 				</ul>
 			</div>
 			<div className="space-y-3">
-				<h6 className="uppercase text-gray-50 dark:text-gray-900">Developers</h6>
+				<h6 className="uppercase text-gray-50 dark:text-gray-900">Quick Links</h6>
 				<ul className="space-y-1">
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">Public API</a>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/">Home</Link>
 					</li>
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">Documentation</a>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/partners">Partners</Link>
 					</li>
 					<li>
-						<a className="text-body-dark-11" rel="noopener noreferrer" href="#">Guides</a>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/products">Products</Link>
 					</li>
 				</ul>
 			</div>
