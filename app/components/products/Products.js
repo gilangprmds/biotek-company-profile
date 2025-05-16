@@ -11,7 +11,8 @@ export default function Products() {
   const searchParams = useSearchParams();
   const initialSearch = searchParams.get('search') || "";
   const [searchQuery, setSearchQuery] = useState(initialSearch);
-  const [selectedCategory, setSelectedCategory] = useState("All Product");
+  const categoryQuery = searchParams.get("category") || "All Product";
+  const [selectedCategory, setSelectedCategory] = useState(categoryQuery);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
   

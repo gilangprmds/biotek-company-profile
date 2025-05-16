@@ -10,7 +10,7 @@ export default function Footer2(){
               <div className="w-60 lg:w-56 max-w-full ">
             <Link href="/" className="ic-navbar-logo block w-full py-5 text-primary-color">
               <Image
-                src="/logo.png"
+                src="/img/logo.png"
                 alt="Company Logo"
                 width={200} // atur sesuai ukuran yang kamu inginkan
                 height={50}

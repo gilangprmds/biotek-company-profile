@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import Link from "next/link";
 
 export default function Services() {
     return(
@@ -18,6 +18,7 @@ export default function Services() {
 
           <div className="flex flex-wrap -mx-4">
             <div className="w-full md:w-1/3 px-4 mb-8"  data-aos="fade-up">
+            <Link href={{ pathname: "/products", query: { category: "Hip Stem" } }}>
                 <div className="bg-white p-8 shadow-xl rounded-md text-center group hover:-translate-y-3">
                 <div
                   className="w-[70px] h-[70px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color"
@@ -34,8 +35,10 @@ export default function Services() {
                     <p className="text-gray-600">Partial hip surgery is a procedure in which half of the hip joint
                     is replaced with a prosthetic or artificial joint, especially at the hip joint (femoral head).</p>
                 </div>
+              </Link>
             </div>
             <div className="w-full md:w-1/3 px-4 mb-8"  data-aos="fade-up">
+            <Link href={{ pathname: "/products", query: { category: "Knee Stem" } }}>
                 <div className="bg-white p-8 shadow-xl rounded-md text-center group hover:-translate-y-3">
                 <div
                   className="w-[72px] h-[72px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color"
@@ -50,8 +53,10 @@ export default function Services() {
                 </div>                    <h3 className="text-xl font-bold text-gray-800 mb-2">Knee Stem</h3>
                     <p className="text-gray-600">Knee replacement, also known as knee arthroplasty, is a surgical procedure to replace the weight-bearing surfaces of the knee joint to relieve pain and disability.</p>
                 </div>
+              </Link>
             </div>
             <div className="w-full md:w-1/3 px-4 mb-8" data-aos="fade-up">
+            <Link href={{ pathname: "/products", query: { category: "Others" } }}>
                 <div className="bg-white p-8 shadow-xl rounded-md text-center group hover:-translate-y-3" >
                 <div
                   className="w-[70px] h-[70px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color"
@@ -66,7 +71,7 @@ export default function Services() {
                 </div>                    <h3 className="text-xl font-bold text-gray-800 mb-2">Rapid Test</h3>
                     <p className="text-gray-600">Rapid test is one of the methods used to detect infection for the detection of SARS-CoV-2, the virus that causes COVID-19 in the human body.</p>
                 </div>
-                
+              </Link>
             </div>
         </div>
 
