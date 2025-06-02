@@ -1,10 +1,16 @@
 // components/products/ProductDetail.jsx
+import { useState } from 'react';
 import { notFound } from 'next/navigation';
 import Breadcrumb from '../Breadcrumb';
 
-export default function ProductDetail({ slug, products }) {
-  const product = products.find((p) => p.slug === slug);
+
+export default function ProductDetail({ product }) {
+  const imageBaseUrl = 'http://localhost:8080'; // Ganti sesuai backend kamu
+  const [activeImage, setActiveImage] = useState(product.productImages?.[0]?.urlImage);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   if (!product) return notFound();
+  
+
 
   return (
     <div>
@@ -16,7 +22,69 @@ export default function ProductDetail({ slug, products }) {
     <div className="max-w-7xl mx-auto p-4">
     <Breadcrumb />
     <div className="py-4 max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
-      <img src={product.image} alt={product.name} className="rounded-xl shadow" />
+    <div>
+      {/* Gambar utama + thumbnail */}
+      <div>
+        {/* Gambar utama */}
+        <div
+          className="relative border rounded-xl overflow-hidden cursor-pointer"
+          onClick={() => setIsModalOpen(true)}
+        >
+          <img
+            src={`${imageBaseUrl}${activeImage}`}
+            alt={product.name}
+            className="w-full h-auto object-cover"
+          />
+          <div className="absolute top-2 right-2 bg-white p-1 rounded-full shadow text-xl">
+            🔍
+          </div>
+        </div>
+
+        {/* Thumbnail */}
+        <div className="flex gap-2 mt-4">
+          {product.productImages?.map((img, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveImage(img.urlImage)}
+              className={`border-2 rounded-md overflow-hidden ${
+                activeImage === img.urlImage ? 'border-blue-500' : 'border-transparent'
+              }`}
+            >
+              <img
+                src={`${imageBaseUrl}${img.urlImage}`}
+                alt={`Thumbnail ${index + 1}`}
+                className="w-20 h-20 object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Modal Gambar */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="relative max-w-4xl max-h-[90vh] overflow-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-2 right-2 text-white text-2xl font-bold z-10"
+              onClick={() => setIsModalOpen(false)}
+            >
+              ✕
+            </button>
+            <img
+              src={`${imageBaseUrl}${activeImage}`}
+              alt="Full View"
+              className="w-full h-auto rounded-xl shadow-xl"
+            />
+          </div>
+        </div>
+      )}
+    </div>
       <div>
         <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
         <p className="mb-4 text-gray-700">{product.description}</p>
@@ -25,7 +93,7 @@ export default function ProductDetail({ slug, products }) {
           <tbody>
             <tr className="bg-gray-100">
               <td className="p-2 font-medium w-1/3">No Product:</td>
-              <td className="p-2">{product.noProduct}</td>
+              <td className="p-2">{product.noProduct }</td>
             </tr>
             <tr>
               <td className="p-2 font-medium">Model/Type:</td>
