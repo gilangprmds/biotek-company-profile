@@ -5,6 +5,21 @@ import { useState, useRef, useEffect } from 'react';
 import { FiEdit2, FiRotateCw, FiZoomIn, FiZoomOut, FiCheck, FiTrash2, FiX, FiMove } from 'react-icons/fi';
 
 export default function AddProductPage() {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/product-category');
+        const data = await response.json();
+        setCategories(data.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    
+    fetchCategories();
+  }, []);
+
   // State untuk data produk
   const [productData, setProductData] = useState({
     name: '',
@@ -398,23 +413,22 @@ export default function AddProductPage() {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Product Categories*</label>
-                    <select
-                      name="productCategory"
-                      value={productData.productCategory}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required
-                    >
-                      <option value="">Select Category</option>
-                      <option value="Hip Stem">Hip Stem</option>
-                      <option value="Knee Stem">Knee Stem</option>
-                      <option value="Others">Others</option>
-                      {/* <option value="rumah-tangga">Rumah Tangga</option>
-                      <option value="olahraga">Olahraga</option>
-                      <option value="makanan-minuman">Makanan & Minuman</option> */}
-                    </select>
-                  </div>
+  <label className="block text-sm font-medium text-gray-700">Product Categories*</label>
+  <select
+    name="productCategory"
+    value={productData.productCategory}
+    onChange={handleInputChange}
+    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    required
+  >
+    <option value="">Select Category</option>
+    {categories.map((category) => (
+      <option key={category.id} value={category.name}>
+        {category.name}
+      </option>
+    ))}
+  </select>
+</div>
                   
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">No Product</label>
