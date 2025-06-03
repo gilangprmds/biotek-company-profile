@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
-export default function Navbar() {
+export default function Navbar2() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState(pathname === '/' ? 'home' : '');
