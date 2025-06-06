@@ -1,27 +1,16 @@
-// pages/add-product.js
+// pages/edit-product/[id].js
 "use client"
 import { useState, useRef, useEffect } from 'react';
 import { FiEdit2, FiRotateCw, FiZoomIn, FiZoomOut, FiCheck, FiTrash2, FiX, FiMove } from 'react-icons/fi';
 import Cropper from 'react-easy-crop';
+import { useParams, useRouter } from 'next/navigation';
 
-export default function AddProduct() {
+export default function EditProduct() {
+  const { id } = useParams();
+  const router = useRouter();
   const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/product-category');
-        const data = await response.json();
-        setCategories(data.data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-    
-    fetchCategories();
-  }, []);
-
-  // State untuk data produk
   const [productData, setProductData] = useState({
+    id: '',
     name: '',
     productCategory: '',
     description: '',
@@ -35,22 +24,71 @@ export default function AddProduct() {
   });
   
   // State untuk gambar
-  const [images, setImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
+  const [newImages, setNewImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
+  const [idImagesToDelete, setidImagesToDelete] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
-  
-// State untuk editor gambar (dengan react-easy-crop)
-const [showEditor, setShowEditor] = useState(false);
-const [currentImageIndex, setCurrentImageIndex] = useState(null);
-const [originalImage, setOriginalImage] = useState(null);
-const [crop, setCrop] = useState({ x: 0, y: 0 });
-const [zoom, setZoom] = useState(1);
-const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [blobUrl, setBlobUrl] = useState(null); // Untuk menyimpan blob URL
+  const [updatedImages, setUpdatedImages] = useState([]);
+  const [imagesToUpdate, setImagesToUpdate] = useState([]);
+
+  // State untuk editor gambar
+  const [showEditor, setShowEditor] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(null);
+  const [originalImage, setOriginalImage] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   
   const fileInputRef = useRef(null);
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
+
+  // Fetch data produk dan kategori
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch categories
+        const catResponse = await fetch('http://localhost:8080/product-category');
+        const catData = await catResponse.json();
+        setCategories(catData.data);
+
+        // Fetch product data
+        const prodResponse = await fetch(`http://localhost:8080/product/${id}`);
+        const prodData = await prodResponse.json();
+        
+        if (prodData.data) {
+          const product = prodData.data;
+          setProductData({
+            id: product.id,
+            name: product.name,
+            productCategory: product.productCategory.name,
+            description: product.description,
+            noProduct: product.noProduct,
+            modelOrType: product.modelOrType,
+            unitsOfMeasurement: product.unitsOfMeasurement,
+            kbkiCode: product.kbkiCode,
+            permitToCirculateNumber: product.permitToCirculateNumber,
+            factoryName: product.factoryName,
+            productValidityPeriod: product.productValidityPeriod,
+          });
+
+          // Set existing images
+          if (product.productImages && product.productImages.length > 0) {
+            setExistingImages(product.productImages);
+            setPreviewImages(product.productImages.map(img => ({
+              url: img.urlImage,
+              type: 'existing'
+            })));
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   // Handle perubahan input text
   const handleInputChange = (e) => {
@@ -61,82 +99,123 @@ const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     });
   };
 
-  // Handle pemilihan gambar
+  // Handle pemilihan gambar baru
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     
     // Batasi jumlah gambar
-    if (files.length + images.length > 9) {
+    if (files.length + previewImages.length > 9) {
       alert('Maksimal 9 gambar');
       return;
     }
 
-    // Buka editor untuk setiap gambar yang diupload
-    // files.forEach(file => {
-    //     const reader = new FileReader();
-    //     reader.onload = (e) => {
-    //       setCurrentImageIndex(e.target.result);
-    //       setRotation(0);
-    //       setShowEditor(true);
-    //     };
-    //     reader.readAsDataURL(file);
-    //   });
+    // Buat preview gambar baru
+    const newPreviewImages = files.map(file => ({
+      url: URL.createObjectURL(file),
+      type: 'new'
+    }));
     
-    
-    // Buat preview gambar
-    const newPreviewImages = files.map(file => URL.createObjectURL(file));
-    
-    setImages([...images, ...files]);
+    setNewImages([...newImages, ...files]);
     setPreviewImages([...previewImages, ...newPreviewImages]);
   };
 
   // Hapus gambar
   const removeImage = (index) => {
-    const newImages = [...images];
+    const imageToRemove = previewImages[index];
+    
+    // Jika gambar berasal dari server
+    if (imageToRemove.type === 'existing') {
+      const existingImage = existingImages.find(img => img.urlImage === imageToRemove.url);
+      if (existingImage) {
+        setidImagesToDelete([...idImagesToDelete, existingImage.id]);
+      }
+      
+      // Hapus dari existing images
+      setExistingImages(existingImages.filter(img => img.urlImage !== imageToRemove.url));
+    } 
+    // Jika gambar baru
+    else {
+      // Temukan file yang sesuai di newImages
+      const newIndex = newImages.findIndex((_, i) => {
+        const previewIndex = previewImages.findIndex(p => p.type === 'new' && p.url === imageToRemove.url);
+        return previewIndex === index;
+      });
+      
+      if (newIndex !== -1) {
+        const newNewImages = [...newImages];
+        newNewImages.splice(newIndex, 1);
+        setNewImages(newNewImages);
+      }
+    }
+    
+    // Hapus dari preview
     const newPreviews = [...previewImages];
-    
-    newImages.splice(index, 1);
     newPreviews.splice(index, 1);
-    
-    setImages(newImages);
     setPreviewImages(newPreviews);
   };
 
-// Fungsi untuk buka editor
-const openImageEditor = (index) => {
-  setCurrentImageIndex(index);
-  setOriginalImage(previewImages[index]);
-  setCrop({ x: 0, y: 0 });
-  setZoom(1);
-  setCroppedAreaPixels(null);
-  setShowEditor(true);
-};
-
+  // Fungsi untuk buka editor
+  const openImageEditor = async (index) => {
+    const image = previewImages[index];
+    
+    try {
+      // Hapus blob URL sebelumnya jika ada
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+        setBlobUrl(null);
+      }
+      
+      let imageUrl;
+      if (image.type === 'existing') {
+        // Ambil gambar melalui fetch untuk menghindari masalah CORS
+        const response = await fetch(`http://localhost:8080${image.url}`);
+        const blob = await response.blob();
+        const newBlobUrl = URL.createObjectURL(blob);
+        setBlobUrl(newBlobUrl);
+        imageUrl = newBlobUrl;
+      } else {
+        imageUrl = image.url;
+      }
+      
+      setCurrentImageIndex(index);
+      setOriginalImage(imageUrl);
+      setCrop({ x: 0, y: 0 });
+      setZoom(1);
+      setCroppedAreaPixels(null);
+      setShowEditor(true);
+    } catch (error) {
+      console.error('Error opening image editor:', error);
+      alert('Gagal membuka editor gambar');
+    }
+  };
 
   // Fungsi untuk menyimpan area crop
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
-  // Fungsi untuk menghasilkan gambar yang di-crop
+  // Fungsi untuk menghasilkan gambar yang di-crop (diperbaiki)
   const getCroppedImg = async () => {
     if (!originalImage || !croppedAreaPixels) return null;
     
     const image = new Image();
+    
+    // Tambahkan ini untuk mengatasi masalah CORS
+    image.crossOrigin = "Anonymous";
+    
     image.src = originalImage;
     
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
       image.onload = resolve;
+      image.onerror = reject;
     });
     
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     
-    // Set ukuran canvas sesuai dengan area crop
     canvas.width = croppedAreaPixels.width;
     canvas.height = croppedAreaPixels.height;
     
-    // Gambar di crop
     ctx.drawImage(
       image,
       croppedAreaPixels.x,
@@ -157,6 +236,7 @@ const openImageEditor = (index) => {
   };
 
   // Simpan gambar yang telah di-edit
+  // Simpan gambar yang telah di-edit (diperbaiki)
   const saveEditedImage = async () => {
     try {
       const croppedBlob = await getCroppedImg();
@@ -165,26 +245,67 @@ const openImageEditor = (index) => {
         const croppedUrl = URL.createObjectURL(croppedBlob);
         
         // Update preview images
-        const newPreviews = [...previewImages];
-        newPreviews[currentImageIndex] = croppedUrl;
-        setPreviewImages(newPreviews);
+        setPreviewImages(prev => {
+          const newPreviews = [...prev];
+          newPreviews[currentImageIndex] = {
+            url: croppedUrl,
+            type: 'new'
+          };
+          return newPreviews;
+        });
         
-        // Update images
-        const newImages = [...images];
-        newImages[currentImageIndex] = new File(
+        const originalImageData = previewImages[currentImageIndex];
+        
+        // Jika gambar aslinya adalah existing, tandai untuk dihapus
+        if (originalImageData.type === 'existing') {
+          const existingImage = existingImages.find(img => 
+            img.urlImage === originalImageData.url
+          );
+          
+          if (existingImage) {
+            setImagesToUpdate(prev => [...prev, existingImage.urlImage]);
+            setExistingImages(prev => prev.filter(img => img.urlImage !== existingImage.urlImage));
+          }
+          const updatedFile = new File(
+            [croppedBlob], 
+            `${originalImageData.url}`, 
+            { type: 'image/jpeg' }
+          );
+          setUpdatedImages(prev => [...prev, updatedFile]);
+        }else{
+          // Tambahkan gambar baru ke newImages
+        const newFile = new File(
           [croppedBlob], 
           `cropped-${Date.now()}.jpg`, 
           { type: 'image/jpeg' }
         );
-        setImages(newImages);
+        
+        setNewImages(prev => [...prev, newFile]);
+        }
+      }
+      
+      // Bersihkan blob URL
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+        setBlobUrl(null);
       }
       
       setShowEditor(false);
     } catch (error) {
       console.error('Error cropping image:', error);
+      alert('Gagal menyimpan gambar yang diedit');
     }
   };
 
+  // Fungsi untuk menutup editor
+  const closeEditor = () => {
+    // Bersihkan blob URL
+    if (blobUrl) {
+      URL.revokeObjectURL(blobUrl);
+      setBlobUrl(null);
+    }
+    setShowEditor(false);
+  };
 
   // Kirim data ke backend
   const handleSubmit = async (e) => {
@@ -196,7 +317,7 @@ const openImageEditor = (index) => {
       return;
     }
     
-    if (images.length < 1) {
+    if (previewImages.length < 1) {
       setSubmitStatus({ type: 'error', message: 'Minimal 1 gambar produk diperlukan' });
       return;
     }
@@ -208,57 +329,75 @@ const openImageEditor = (index) => {
       const formData = new FormData();
       
       // Tambahkan data produk sebagai JSON
-      formData.append('data', new Blob([JSON.stringify(productData)], { type: 'application/json' } ));
-        //   formData.append('data', new Blob([JSON.stringify(form)], { type: 'application/json' }));
-
+      formData.append('data', new Blob([JSON.stringify({
+        ...productData,
+        idImagesToDelete: idImagesToDelete,
+        imagesToUpdate: imagesToUpdate
+      })], { type: 'application/json' }));
       
-      // Tambahkan gambar
-      images.forEach((image, index) => {
-        formData.append(`images`, image);
+      // Tambahkan gambar baru
+      newImages.forEach((image) => {
+        formData.append(`newImages`, image);
       });
       
+            // Tambahkan gambar baru
+            updatedImages.forEach((image) => {
+              formData.append(`updatedImages`, image);
+            });
+
       // Kirim ke API backend
-      const response = await fetch('http://localhost:8080/product/save', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:8080/product/update/${id}`, {
+        method: 'PUT',
         body: formData,
       });
       
       if (response.ok) {
-        console.log(formData.get('data'));
-        console.log(formData.get('images'));
-        setSubmitStatus({ type: 'success', message: `Product ${productData.name} added successfully !` });
-        // Reset form
-        setProductData({
-          name: '',
-          productCategory: '',
-          description: '',
-          noProduct: '',
-          modelOrType: '',
-          unitsOfMeasurement: '',
-          kbkiCode: '',
-          permitToCirculateNumber: '',
-          factoryName: '',
-          productValidityPeriod: '',
+        setSubmitStatus({ 
+          type: 'success', 
+          message: `Produk ${productData.name} berhasil diperbarui!`
         });
-        setImages([]);
-        setPreviewImages([]);
+        console.log(formData.getAll('data'));
+        console.log(formData.getAll('newImages'))
+        console.log(formData.getAll('updatedImages'))
+        // Redirect setelah 2 detik
+        setTimeout(() => {
+          router.push('/products');
+        }, 2000);
       } else {
         const errorData = await response.json();
-        setSubmitStatus({ type: 'error', message: errorData.message || 'Failed to add product' });
+        setSubmitStatus({ 
+          type: 'error', 
+          message: errorData.message || 'Gagal memperbarui produk' 
+        });
+        console.log(formData.get('data'));
+        console.log(formData.getAll('newImages'))
+        console.log(formData.getAll('updatedImages'))
       }
     } catch (error) {
-      setSubmitStatus({ type: 'error', message: 'Internal Server Error' });
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Kesalahan server' 
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // Cleanup blob URLs
+  useEffect(() => {
+    return () => {
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+      }
+    };
+  }, [blobUrl]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="bg-primary py-4 px-6">
-            <h1 className="text-2xl font-bold text-white">Add New Product</h1>
+            <h1 className="text-2xl font-bold text-white">Edit Produk</h1>
           </div>
           
           <div className="p-6">
@@ -271,15 +410,16 @@ const openImageEditor = (index) => {
             <form onSubmit={handleSubmit}>
               {/* Bagian Upload Gambar */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold mb-4">Product Picture</h2>
+                <h2 className="text-lg font-semibold mb-4">Gambar Produk</h2>
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
                   <p className="text-yellow-700 text-sm">
-                    <span className="font-medium">Image format must be: JPG, JPEG, PNG and mini size. 300×300 px.</span>
+                    <span className="font-medium">Format gambar harus: JPG, JPEG, PNG dan ukuran minimal 300×300 px.</span>
                   </p>
                 </div>
                 
                 <p className="text-gray-600 text-sm mb-4">
-                For optimal images, use the min size. 1200×1200 px. Select product photos or drag and drop up to 9 photos at once here. Upload min. 1 photos .                </p>
+                  Untuk hasil terbaik, gunakan ukuran min. 1200×1200 px. Pilih foto produk atau drag and drop hingga 9 foto. Minimal 1 foto.
+                </p>
                 
                 <div 
                   className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-500 transition-colors"
@@ -296,8 +436,8 @@ const openImageEditor = (index) => {
                     <svg className="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
                     </svg>
-                    <p className="mt-2 font-medium text-gray-700">Click for upload or drag & drop</p>
-                    <p className="text-sm text-gray-500 mt-1">Format .jpg .jpeg .png (max 10MB/file)</p>
+                    <p className="mt-2 font-medium text-gray-700">Klik untuk upload atau drag & drop</p>
+                    <p className="text-sm text-gray-500 mt-1">Format .jpg .jpeg .png (maks 10MB/file)</p>
                   </div>
                   <input
                     type="file"
@@ -312,16 +452,28 @@ const openImageEditor = (index) => {
                 {/* Preview Gambar */}
                 {previewImages.length > 0 && (
                   <div className="mt-6">
-                    <h3 className="text-md font-medium mb-3">Product Picture ({previewImages.length}/9)</h3>
+                    <h3 className="text-md font-medium mb-3">
+                      Gambar Produk ({previewImages.length}/9)
+                      <span className="text-sm font-normal text-gray-500 ml-2">
+                        {existingImages.length} gambar tersimpan, {newImages.length} gambar baru
+                      </span>
+                    </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
                       {previewImages.map((preview, index) => (
                         <div key={index} className="relative group">
                           <div className="relative aspect-square">
                             <img 
-                              src={preview} 
+                              src={preview.type === 'existing' 
+                                ? `http://localhost:8080${preview.url}` 
+                                : preview.url}
                               alt={`Preview ${index}`} 
                               className="w-full h-full object-cover rounded-lg border"
                             />
+                            {preview.type === 'existing' && (
+                              <span className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-1 py-0.5 rounded">
+                                Ada
+                              </span>
+                            )}
                           </div>
                           <div className="absolute top-2 right-2 flex gap-1">
                             <button
@@ -350,11 +502,11 @@ const openImageEditor = (index) => {
               
               {/* Informasi Produk */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold mb-6 pb-2 border-b">Product Information</h2>
+                <h2 className="text-lg font-semibold mb-6 pb-2 border-b">Informasi Produk</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Product Name*</label>
+                    <label className="block text-sm font-medium text-gray-700">Nama Produk*</label>
                     <input
                       type="text"
                       name="name"
@@ -366,25 +518,25 @@ const openImageEditor = (index) => {
                   </div>
                   
                   <div className="space-y-2">
-  <label className="block text-sm font-medium text-gray-700">Product Categories*</label>
-  <select
-    name="productCategory"
-    value={productData.productCategory}
-    onChange={handleInputChange}
-    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-    required
-  >
-    <option value="">Select Category</option>
-    {categories.map((category) => (
-      <option key={category.id} value={category.name}>
-        {category.name}
-      </option>
-    ))}
-  </select>
-</div>
+                    <label className="block text-sm font-medium text-gray-700">Kategori Produk*</label>
+                    <select
+                      name="productCategory"
+                      value={productData.productCategory}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      required
+                    >
+                      <option value="">Pilih Kategori</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.name}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">No Product</label>
+                    <label className="block text-sm font-medium text-gray-700">Nomor Produk</label>
                     <input
                       type="text"
                       name="noProduct"
@@ -395,7 +547,7 @@ const openImageEditor = (index) => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Model/Type</label>
+                    <label className="block text-sm font-medium text-gray-700">Model/Tipe</label>
                     <input
                       type="text"
                       name="modelOrType"
@@ -406,14 +558,14 @@ const openImageEditor = (index) => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Units Of Measurement</label>
+                    <label className="block text-sm font-medium text-gray-700">Satuan Ukur</label>
                     <select
                       name="unitsOfMeasurement"
                       value={productData.unitsOfMeasurement}
                       onChange={handleInputChange}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
-                      <option value="">Select Units</option>
+                      <option value="">Pilih Satuan</option>
                       <option value="pcs">Pcs</option>
                       <option value="kg">Kg</option>
                       <option value="liter">Liter</option>
@@ -423,7 +575,7 @@ const openImageEditor = (index) => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">KBKI Code</label>
+                    <label className="block text-sm font-medium text-gray-700">Kode KBKI</label>
                     <input
                       type="text"
                       name="kbkiCode"
@@ -449,11 +601,11 @@ const openImageEditor = (index) => {
               
               {/* Informasi Legal */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold mb-6 pb-2 border-b">Legal Information</h2>
+                <h2 className="text-lg font-semibold mb-6 pb-2 border-b">Informasi Legal</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Permit To Circulate Number</label>
+                    <label className="block text-sm font-medium text-gray-700">Nomor Izin Edar</label>
                     <input
                       type="text"
                       name="permitToCirculateNumber"
@@ -464,7 +616,7 @@ const openImageEditor = (index) => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Factory Name</label>
+                    <label className="block text-sm font-medium text-gray-700">Nama Pabrik</label>
                     <input
                       type="text"
                       name="factoryName"
@@ -475,7 +627,7 @@ const openImageEditor = (index) => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Product Validity Period</label>
+                    <label className="block text-sm font-medium text-gray-700">Masa Berlaku Produk</label>
                     <input
                       type="date"
                       name="productValidityPeriod"
@@ -488,12 +640,19 @@ const openImageEditor = (index) => {
               </div>
               
               {/* Tombol Submit */}
-              <div className="flex justify-end pt-4 border-t">
+              <div className="flex justify-between pt-4 border-t">
+                <button
+                  type="button"
+                  onClick={() => router.push('/products')}
+                  className="px-6 py-3 font-medium text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors"
+                >
+                  Batal
+                </button>
                 <button
                   type="submit"
-                  disabled={isSubmitting || images.length < 1}
+                  disabled={isSubmitting || previewImages.length < 1}
                   className={`px-6 py-3 font-medium rounded-lg transition-colors flex items-center ${
-                    images.length < 1 
+                    previewImages.length < 1 
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
                       : 'bg-blue-600 text-white hover:bg-blue-700'
                   }`}
@@ -506,7 +665,7 @@ const openImageEditor = (index) => {
                       </svg>
                       Menyimpan...
                     </>
-                  ) : 'Simpan Produk'}
+                  ) : 'Perbarui Produk'}
                 </button>
               </div>
             </form>
@@ -521,7 +680,7 @@ const openImageEditor = (index) => {
             <div className="bg-gray-800 text-white py-3 px-4 flex justify-between items-center">
               <h3 className="text-lg font-medium">Atur Gambar</h3>
               <button 
-                onClick={() => setShowEditor(false)}
+                onClick={closeEditor}
                 className="text-white hover:text-gray-300"
               >
                 <FiX size={24} />
@@ -534,12 +693,13 @@ const openImageEditor = (index) => {
                   image={originalImage}
                   crop={crop}
                   zoom={zoom}
-                  aspect={1} // Rasio 1:1
+                  aspect={1}
                   cropShape="rect"
                   showGrid={true}
                   onCropChange={setCrop}
                   onCropComplete={onCropComplete}
                   onZoomChange={setZoom}
+                  crossOrigin="anonymous" // Penting untuk CORS
                 />
               </div>
               
@@ -561,7 +721,7 @@ const openImageEditor = (index) => {
                 
                 <div className="flex gap-3 w-full max-w-xs">
                   <button
-                    onClick={() => setShowEditor(false)}
+                    onClick={closeEditor}
                     className="flex-1 border border-gray-300 hover:bg-gray-100 py-2 px-4 rounded-lg"
                   >
                     Batal
@@ -578,8 +738,6 @@ const openImageEditor = (index) => {
           </div>
         </div>
       )}
-      
     </div>
   );
 }
-
