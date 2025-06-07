@@ -361,7 +361,7 @@ export default function EditProduct() {
         console.log(formData.getAll('updatedImages'))
         // Redirect setelah 2 detik
         setTimeout(() => {
-          router.push('/products');
+          router.push('/products/manage-products');
         }, 2000);
       } else {
         const errorData = await response.json();
@@ -643,7 +643,7 @@ export default function EditProduct() {
               <div className="flex justify-between pt-4 border-t">
                 <button
                   type="button"
-                  onClick={() => router.push('/products')}
+                  onClick={() => router.push('/products/manage-products')}
                   className="px-6 py-3 font-medium text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors"
                 >
                   Batal

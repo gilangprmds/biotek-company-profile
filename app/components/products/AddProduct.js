@@ -3,8 +3,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { FiEdit2, FiRotateCw, FiZoomIn, FiZoomOut, FiCheck, FiTrash2, FiX, FiMove } from 'react-icons/fi';
 import Cropper from 'react-easy-crop';
+import { useRouter } from 'next/navigation';
 
 export default function AddProduct() {
+  const router = useRouter();
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -488,7 +490,14 @@ const openImageEditor = (index) => {
               </div>
               
               {/* Tombol Submit */}
-              <div className="flex justify-end pt-4 border-t">
+              <div className="flex justify-between pt-4 border-t">
+              <button
+                  type="button"
+                  onClick={() => router.push('/products/manage-products')}
+                  className="px-6 py-3 font-medium text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors"
+                >
+                Kembali
+                </button>
                 <button
                   type="submit"
                   disabled={isSubmitting || images.length < 1}
