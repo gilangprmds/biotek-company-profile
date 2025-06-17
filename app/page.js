@@ -3,7 +3,6 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Services from "./components/Services";
-import Testimonials from "./components/Testimonial";
 import Footer2 from "./components/Footer2";
 import Contact from "./components/Contact";
 import OurWork from "./components/OurWork";
@@ -20,7 +19,6 @@ export default function Home() {
         <About />
         <Services />
         <OurWork />
-        <Testimonials />
         <Contact />
       </main>
       <Footer2 />

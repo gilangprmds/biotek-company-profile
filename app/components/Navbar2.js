@@ -82,10 +82,11 @@ export default function Navbar2() {
   const navItems = [
     { name: 'Home', id: 'home' },
     { name: 'About', id: 'about' },
-    { name: 'Services', id: 'services' },
-    { name: 'Contact', id: 'contact' },
     { name: 'Products', path: '/products' },
+    { name: 'Services', id: 'services' },
     { name: 'Partners', path: '/partners' },
+    { name: 'Contact', id: 'contact' },
+    
   ];
 
   return (
@@ -194,7 +195,7 @@ export default function Navbar2() {
                   onClick={(e) => handleSectionClick(e, 'contact')}
                   className="block w-full text-center px-4 py-2 mt-4 bg-blue-600 text-white rounded hover:bg-blue-700 hover:text-white transition"
                 >
-                  Get a Quote
+                  Get in Touch
                 </a>
               </li>
             </ul>
@@ -229,7 +230,7 @@ export default function Navbar2() {
               onClick={(e) => handleSectionClick(e, 'contact')}
               className="ml-3 px-5 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 hover:text-white transition"
             >
-              Get a Quote
+              Get in Touch
             </a>
           </div>
         </div>
