@@ -7,6 +7,7 @@ import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import ProductDetail from "@/app/components/products/ProductDetail";
 import Footer2 from "@/app/components/Footer2";
+import Navbar2 from "@/app/components/Navbar2";
 
 export default function ProductDetailPage() {
   const { slug } = useParams(); // ambil id dari URL
@@ -35,7 +36,7 @@ export default function ProductDetailPage() {
   if (!product) return <div className="text-center py-20 text-red-500">Product not found.</div>;
   return (
     <>
-      <Navbar />
+      <Navbar2 />
       <main className="main relative">
         <ProductDetail product={product} />
       </main>

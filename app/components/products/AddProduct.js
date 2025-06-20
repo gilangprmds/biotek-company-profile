@@ -8,6 +8,9 @@ import { useRouter } from 'next/navigation';
 export default function AddProduct() {
   const router = useRouter();
   const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -22,10 +25,38 @@ export default function AddProduct() {
     fetchCategories();
   }, []);
 
+  const handleCategoryChange = (e) => {
+    const categoryId = e.target.value;
+    setSelectedCategoryId(categoryId);
+    
+    // Update product category name
+    const selectedCategory = categories.find(cat => cat.id == categoryId);
+    setProductData({
+      ...productData,
+      productCategory: selectedCategory ? selectedCategory.name : '',
+      productSubCategory: '' // Reset subcategory when changing category
+    });
+    
+    // Update available subcategories
+    if (categoryId) {
+      const category = categories.find(cat => cat.id == categoryId);
+      setSubCategories(category?.subCategories || []);
+    } else {
+      setSubCategories([]);
+    }
+  };
+
+  const handleSubCategoryChange = (e) => {
+    setProductData({
+      ...productData,
+      productSubCategory: e.target.value
+    });
+  };
+
   // State untuk data produk
   const [productData, setProductData] = useState({
     name: '',
-    productCategory: '',
+    productSubCategory: '',
     description: '',
     noProduct: '',
     modelOrType: '',
@@ -368,24 +399,42 @@ const openImageEditor = (index) => {
                   </div>
                   
                   <div className="space-y-2">
-  <label className="block text-sm font-medium text-gray-700">Product Categories*</label>
-  <select
-    name="productCategory"
-    value={productData.productCategory}
-    onChange={handleInputChange}
-    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-    required
-  >
-    <option value="">Select Category</option>
-    {categories.map((category) => (
-      <option key={category.id} value={category.name}>
-        {category.name}
-      </option>
-    ))}
-  </select>
-</div>
+                <label className="block text-sm font-medium text-gray-700">Product Categories*</label>
+                <select
+                  name="productCategory"
+                  value={selectedCategoryId}
+                  onChange={handleCategoryChange}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  required
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Product Subcategories</label>
+                <select
+                  name="productSubCategory"
+                  value={productData.productSubCategory}
+                  onChange={handleSubCategoryChange}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  disabled={!selectedCategoryId}
+                >
+                  <option value="">Select Subcategory</option>
+                  {subCategories.map((subCat) => (
+                    <option key={subCat.id} value={subCat.name}>
+                      {subCat.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
                   
-                  <div className="space-y-2">
+                  {/* <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">No Product</label>
                     <input
                       type="text"
@@ -433,8 +482,8 @@ const openImageEditor = (index) => {
                       onChange={handleInputChange}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
-                  </div>
-                </div>
+                  </div>*/}
+                </div> 
                 
                 <div className="mt-6 space-y-2">
                   <label className="block text-sm font-medium text-gray-700">Deskripsi Produk</label>
@@ -449,7 +498,7 @@ const openImageEditor = (index) => {
                 </div>
               </div>
               
-              {/* Informasi Legal */}
+              {/* Informasi Legal
               <div className="mb-8">
                 <h2 className="text-lg font-semibold mb-6 pb-2 border-b">Legal Information</h2>
                 
@@ -487,7 +536,7 @@ const openImageEditor = (index) => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
               
               {/* Tombol Submit */}
               <div className="flex justify-between pt-4 border-t">

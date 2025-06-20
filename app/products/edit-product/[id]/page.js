@@ -9,10 +9,13 @@ export default function EditProduct() {
   const { id } = useParams();
   const router = useRouter();
   const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [productData, setProductData] = useState({
     id: '',
     name: '',
     productCategory: '',
+    productSubCategory: '',
     description: '',
     noProduct: '',
     modelOrType: '',
@@ -62,7 +65,8 @@ export default function EditProduct() {
           setProductData({
             id: product.id,
             name: product.name,
-            productCategory: product.productCategory.name,
+            productCategory: product.productSubCategory.productCategoryName,
+            productSubCategory: product.productSubCategory.name,
             description: product.description,
             noProduct: product.noProduct,
             modelOrType: product.modelOrType,
@@ -81,6 +85,13 @@ export default function EditProduct() {
               type: 'existing'
             })));
           }
+          // Set selected category and subcategories
+          const categoryId = product.productSubCategory.productCategoryId;
+          setSelectedCategoryId(categoryId);
+          const category = catData.data.find(cat => cat.id == categoryId);
+          if (category) {
+            setSubCategories(category.subCategories || []);
+          }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -90,6 +101,37 @@ export default function EditProduct() {
     fetchData();
   }, [id]);
 
+  // Handle perubahan kategori
+  const handleCategoryChange = (e) => {
+    const categoryId = e.target.value;
+    setSelectedCategoryId(categoryId);
+    
+    // Cari kategori yang dipilih
+    const selectedCategory = categories.find(cat => cat.id == categoryId);
+    
+    // Update nama kategori di productData
+    setProductData({
+      ...productData,
+      productCategory: selectedCategory ? selectedCategory.name : '',
+      productSubCategory: '' // Reset subkategori saat ganti kategori
+    });
+    
+    // Set subkategori berdasarkan kategori yang dipilih
+    if (selectedCategory) {
+      setSubCategories(selectedCategory.subCategories || []);
+    } else {
+      setSubCategories([]);
+    }
+  };
+
+  // Handle perubahan subkategori
+  const handleSubCategoryChange = (e) => {
+    setProductData({
+      ...productData,
+      productSubCategory: e.target.value
+    });
+  };
+  
   // Handle perubahan input text
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -521,21 +563,39 @@ export default function EditProduct() {
                     <label className="block text-sm font-medium text-gray-700">Kategori Produk*</label>
                     <select
                       name="productCategory"
-                      value={productData.productCategory}
-                      onChange={handleInputChange}
+                      value={selectedCategoryId}
+                      onChange={handleCategoryChange}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       required
                     >
                       <option value="">Pilih Kategori</option>
                       {categories.map((category) => (
-                        <option key={category.id} value={category.name}>
+                        <option key={category.id} value={category.id}>
                           {category.name}
                         </option>
                       ))}
                     </select>
                   </div>
-                  
+
                   <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Subkategori Produk</label>
+                    <select
+                      name="productSubCategory"
+                      value={productData.productSubCategory}
+                      onChange={handleSubCategoryChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      disabled={!selectedCategoryId}
+                    >
+                      <option value="">Pilih Subkategori</option>
+                      {subCategories.map((subCat) => (
+                        <option key={subCat.id} value={subCat.name}>
+                          {subCat.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  {/* <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">Nomor Produk</label>
                     <input
                       type="text"
@@ -583,7 +643,7 @@ export default function EditProduct() {
                       onChange={handleInputChange}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
-                  </div>
+                  </div> */}
                 </div>
                 
                 <div className="mt-6 space-y-2">
@@ -600,7 +660,7 @@ export default function EditProduct() {
               </div>
               
               {/* Informasi Legal */}
-              <div className="mb-8">
+              {/* <div className="mb-8">
                 <h2 className="text-lg font-semibold mb-6 pb-2 border-b">Informasi Legal</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -637,7 +697,7 @@ export default function EditProduct() {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
               
               {/* Tombol Submit */}
               <div className="flex justify-between pt-4 border-t">

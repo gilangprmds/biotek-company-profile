@@ -10,6 +10,7 @@ export default function ManageProduct() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showSubCategoryModal, setShowSubCategoryModal] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -17,7 +18,10 @@ export default function ManageProduct() {
   const [expandedProduct, setExpandedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  
+  const [expandedCategories, setExpandedCategories] = useState({});
+  const [selectedSubCategory, setSelectedSubCategory] = useState('');
+  const [parentCategory, setParentCategory] = useState('');
+const [currentSubCategory, setCurrentSubCategory] = useState(null);
   // State untuk filter
   const [selectedCategory, setSelectedCategory] = useState('all');
   
@@ -29,6 +33,21 @@ export default function ManageProduct() {
 
   // State untuk menyimpan jumlah produk per kategori
   const [categoryProductCounts, setCategoryProductCounts] = useState({});
+
+  // Fungsi untuk membuka modal kategori
+const openCategoryModal = (category = null) => {
+  setCurrentCategory(category);
+  setCategoryName(category?.name || '');
+  setShowCategoryModal(true);
+};
+
+// Fungsi untuk membuka modal subkategori
+const openSubCategoryModal = (subCategory = null) => {
+  setCurrentSubCategory(subCategory);
+  setCategoryName(subCategory?.name || '');
+  setParentCategory(subCategory?.productCategoryId || '');
+  setShowSubCategoryModal(true);
+};
 
   // Fetch data saat komponen dimuat
   useEffect(() => {
@@ -69,10 +88,14 @@ export default function ManageProduct() {
       const params = new URLSearchParams();
       if (searchTerm) params.append("name", searchTerm);
       
-      // Tambahkan filter kategori jika dipilih
-      if (selectedCategory !== 'all') {
+      // Filter berdasarkan kategori atau subkategori
+    if (selectedCategory !== 'all') {
+      if (selectedSubCategory) {
+        params.append("subCategory", selectedSubCategory);
+      } else {
         params.append("category", selectedCategory);
       }
+    }
       
       params.append("page", currentPage - 1);
       params.append("size", productsPerPage);
@@ -109,7 +132,7 @@ export default function ManageProduct() {
         
         // Hitung jumlah produk untuk setiap kategori
         data.data.products.forEach(product => {
-          const categoryName = product.productCategory.name;
+          const categoryName = product.productSubCategory.name;
           counts[categoryName] = (counts[categoryName] || 0) + 1;
         });
         
@@ -122,33 +145,47 @@ export default function ManageProduct() {
   };
 
   // Handle kategori
-  const handleCategorySubmit = async (e) => {
+  const handleCategorySubmit = async (e, isSubCategory = false) => {
     e.preventDefault();
     
-    const method = currentCategory ? 'PUT' : 'POST';
-    const url = currentCategory 
-      ? `http://localhost:8080/product-category/update/${currentCategory.id}`
-      : 'http://localhost:8080/product-category/save';
+    let url, body;
     
+    if (isSubCategory) {
+      // Handle subkategori
+      url = currentSubCategory 
+        ? `http://localhost:8080/product-sub-category/update/${currentSubCategory.id}`
+        : 'http://localhost:8080/product-sub-category/save';
+      
+      body = JSON.stringify({ 
+        name: categoryName,
+        productCategoryId: parentCategory 
+      });
+    } else {
+      // Handle kategori utama
+      url = currentCategory 
+        ? `http://localhost:8080/product-category/update/${currentCategory.id}`
+        : 'http://localhost:8080/product-category/save';
+      
+      body = JSON.stringify({ name: categoryName });
+    }
+  
     try {
       const res = await fetch(url, {
-        method,
+        method: currentCategory || currentSubCategory ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: categoryName }),
+        body
       });
       
       if (res.ok) {
         fetchCategories();
         setShowCategoryModal(false);
+        setShowSubCategoryModal(false);
         setCategoryName('');
         setCurrentCategory(null);
-        
-        // Perbarui jumlah produk per kategori setelah perubahan
-        calculateCategoryCounts();
-      } else {
-        console.error('Failed to save category');
+        setCurrentSubCategory(null);
+        setParentCategory('');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -156,20 +193,24 @@ export default function ManageProduct() {
   };
 
   const deleteCategory = async (id) => {
-    if (!window.confirm('Apakah Anda yakin ingin menghapus kategori ini?')) return;
+    if (!window.confirm('Apakah Anda yakin ingin menghapus?')) return;
     
     try {
-      const res = await fetch(`http://localhost:8080/product-category/${id}`, {
+      // Cek apakah ini kategori atau subkategori
+      const isSubcategory = categories.some(cat => 
+        cat.subCategories?.some(sub => sub.id === id)
+      );
+      
+      const url = isSubcategory
+        ? `http://localhost:8080/product-sub-category/delete/${id}`
+        : `http://localhost:8080/product-category/${id}`;
+      
+      const res = await fetch(url, {
         method: 'DELETE',
       });
       
       if (res.ok) {
         fetchCategories();
-        
-        // Perbarui jumlah produk per kategori setelah perubahan
-        calculateCategoryCounts();
-      } else {
-        console.error('Failed to delete category');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -402,7 +443,7 @@ export default function ManageProduct() {
                       <thead className="bg-gray-50">
                         <tr>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produk</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sub Categori</th>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No. Produk</th>
                           <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                         </tr>
@@ -410,7 +451,9 @@ export default function ManageProduct() {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {products.map((product) => (
                           <>
-                            <tr key={product.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => setExpandedProduct(expandedProduct === product.id ? null : product.id)}>
+                            <tr key={product.id} className="hover:bg-gray-50 " 
+                            // onClick={() => setExpandedProduct(expandedProduct === product.id ? null : product.id)}
+                            >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
                                   {product.productImages?.[0]?.urlImage && (
@@ -426,7 +469,7 @@ export default function ManageProduct() {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                  {product.productCategory.name}
+                                  {product.productSubCategory.name}
                                 </span>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.noProduct || '-'}</td>
@@ -451,16 +494,16 @@ export default function ManageProduct() {
                                   >
                                     <FiTrash2 size={18} />
                                   </button>
-                                  <button
+                                  {/* <button
                                     onClick={() => setExpandedProduct(expandedProduct === product.id ? null : product.id)}
                                     className="ml-2 text-gray-500 hover:text-gray-700"
                                   >
                                     {expandedProduct === product.id ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
-                                  </button>
+                                  </button> */}
                                 </div>
                               </td>
                             </tr>
-                            {expandedProduct === product.id && (
+                            {/* {expandedProduct === product.id && (
                               <tr className="bg-blue-50">
                                 <td colSpan="4" className="px-6 py-4">
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -496,7 +539,7 @@ export default function ManageProduct() {
                                   </div>
                                 </td>
                               </tr>
-                            )}
+                            )} */}
                           </>
                         ))}
                       </tbody>
@@ -511,126 +554,229 @@ export default function ManageProduct() {
         
         {/* Tab: Categories */}
         {activeTab === 'categories' && (
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="p-6">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-800">Daftar Kategori</h2>
-                  <p className="text-gray-600 mt-1">Kelola kategori produk Anda</p>
+  <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="p-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-800">Daftar Kategori & Subkategori</h2>
+          <p className="text-gray-600 mt-1">Kelola hierarki kategori produk Anda</p>
+        </div>
+        <div className="flex gap-2">
+  <button
+    onClick={() => openCategoryModal()}
+    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
+  >
+    <FiPlus className="mr-2" /> Tambah Kategori
+  </button>
+  <button
+    onClick={() => openSubCategoryModal()}
+    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center"
+  >
+    <FiPlus className="mr-2" /> Tambah Subkategori
+  </button>
+</div>
+      </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      ) : categories.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="bg-gray-100 p-8 rounded-xl inline-block">
+            <FiChevronDown className="mx-auto text-gray-400 w-16 h-16 mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-1">Belum ada kategori</h3>
+            <p className="text-gray-500 mb-4">Mulai dengan menambahkan kategori baru</p>
+            <button
+              onClick={() => setShowCategoryModal(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+            >
+              Tambah Kategori
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {categories.map((category) => (
+            <div key={category.id} className="border rounded-lg p-4">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <button
+                    onClick={() => setExpandedCategories(prev => ({
+                      ...prev,
+                      [category.id]: !prev[category.id]
+                    }))}
+                    className="mr-2 text-gray-500 hover:text-gray-700"
+                  >
+                    {expandedCategories[category.id] ? <FiChevronUp /> : <FiChevronDown />}
+                  </button>
+                  <h3 className="font-medium text-lg">{category.name}</h3>
                 </div>
-                <button
-                  onClick={() => {
-                    setCurrentCategory(null);
-                    setCategoryName('');
-                    setShowCategoryModal(true);
-                  }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
-                >
-                  <FiPlus className="mr-2" /> Tambah Kategori
-                </button>
+                <div className="flex gap-2">
+                  {/* Untuk edit kategori */}
+                  <button
+                    onClick={() => openCategoryModal(category)}
+                    className="text-blue-600 hover:text-blue-800 p-1 rounded-md hover:bg-blue-50"
+                  >
+                    <FiEdit size={16} />
+                  </button>
+                  {category.subCategories.length > 0 ? "" : <button
+                    onClick={() => deleteCategory(category.id)}
+                    className="text-red-600 hover:text-red-800 p-1 rounded-md hover:bg-red-50"
+                  >
+                    <FiTrash2 size={16} />
+                  </button>}
+                </div>
               </div>
               
-              {isLoading ? (
-                <div className="flex justify-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                </div>
-              ) : categories.length === 0 ? (
-                <div className="text-center py-12">
-                  <div className="bg-gray-100 p-8 rounded-xl inline-block">
-                    <FiChevronDown className="mx-auto text-gray-400 w-16 h-16 mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-1">Belum ada kategori</h3>
-                    <p className="text-gray-500 mb-4">Mulai dengan menambahkan kategori baru</p>
-                    <button
-                      onClick={() => setShowCategoryModal(true)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
-                    >
-                      Tambah Kategori
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {categories.map((category) => (
-                    <div key={category.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex justify-between items-start">
-                        <h5 className="font-medium text-gray-900">{category.name}</h5>
-                        <div className="flex gap-1">
-                          <button
-                            onClick={() => {
-                              setCurrentCategory(category);
-                              setCategoryName(category.name);
-                              setShowCategoryModal(true);
-                            }}
-                            className="text-blue-600 hover:text-blue-800 p-1 rounded-md hover:bg-blue-50"
-                            title="Edit kategori"
-                          >
-                            <FiEdit size={16} />
-                          </button>
-                          {categoryProductCounts[category.name] > 0 ? "" : (<button
-                            onClick={() => deleteCategory(category.id)}
-                            className="text-red-600 hover:text-red-800 p-1 rounded-md hover:bg-red-50"
-                            title="Hapus kategori"
-                          >
-                            <FiTrash2 size={16} />
-                          </button>)}
-                        </div>
-                      </div>
+              {expandedCategories[category.id] && (
+                <div className="ml-8 mt-4 space-y-3">
+                  {category.subCategories?.map(subCat => (
+                    <div key={subCat.id} className="flex justify-between items-center border-l-2 border-gray-200 pl-4 py-2">
+                      <span className="text-gray-700">{subCat.name}</span>
                       <div className="mt-2 text-sm text-gray-500">
-                        {categoryProductCounts[category.name] || 0} produk
+                        {categoryProductCounts[subCat.name] || 0} produk
+                      </div>
+                      <div className="flex gap-2">
+                        {/* Untuk edit subkategori */}
+                        <button
+                          onClick={() => openSubCategoryModal(subCat)}
+                          className="text-blue-600 hover:text-blue-800 p-1 rounded-md hover:bg-blue-50"
+                        >
+                          <FiEdit size={16} />
+                        </button>
+                        
+                        {categoryProductCounts[subCat.name] > 0 ? "" :(<button
+                          onClick={() => deleteCategory(subCat.id)}
+                          className="text-red-600 hover:text-red-800 p-1 rounded-md hover:bg-red-50"
+                        >
+                          <FiTrash2 size={16} />
+                        </button>)}
                       </div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
-          </div>
-        )}
-      </div>
-      
-      {/* Modal Kategori */}
-      {showCategoryModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl w-full max-w-md">
-            <div className="border-b p-4 flex justify-between items-center">
-              <h3 className="text-lg font-medium">{currentCategory ? 'Edit Kategori' : 'Tambah Kategori Baru'}</h3>
-              <button 
-                onClick={() => setShowCategoryModal(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <FiX size={24} />
-              </button>
-            </div>
-            <form onSubmit={handleCategorySubmit} className="p-6">
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Nama Kategori</label>
-                <input
-                  type="text"
-                  required
-                  value={categoryName}
-                  onChange={(e) => setCategoryName(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Masukkan nama kategori"
-                />
-              </div>
-              <div className="flex justify-end space-x-3">
-                <button
-                  type="button"
-                  onClick={() => setShowCategoryModal(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center"
-                >
-                  <FiCheck className="mr-2" /> {currentCategory ? 'Simpan Perubahan' : 'Tambah Kategori'}
-                </button>
-              </div>
-            </form>
-          </div>
+          ))}
         </div>
       )}
+    </div>
+  </div>
+)}
+      </div>
+      
+      {/* Modal untuk Kategori */}
+{showCategoryModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-xl w-full max-w-md">
+      <div className="border-b p-4 flex justify-between items-center">
+        <h3 className="text-lg font-medium">
+          {currentCategory ? 'Edit Kategori' : 'Tambah Kategori'}
+        </h3>
+        <button onClick={() => setShowCategoryModal(false)} className="text-gray-500 hover:text-gray-700">
+          <FiX size={24} />
+        </button>
+      </div>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        handleCategorySubmit(e, false);
+      }} className="p-6">
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Nama Kategori
+          </label>
+          <input
+            type="text"
+            required
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Masukkan nama kategori"
+          />
+        </div>
+        <div className="flex justify-end space-x-3">
+          <button
+            type="button"
+            onClick={() => setShowCategoryModal(false)}
+            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+          >
+            Batal
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center"
+          >
+            <FiCheck className="mr-2" /> {currentCategory ? 'Simpan Perubahan' : 'Tambah'}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+{/* Modal untuk Subkategori */}
+{showSubCategoryModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-xl w-full max-w-md">
+      <div className="border-b p-4 flex justify-between items-center">
+        <h3 className="text-lg font-medium">
+          {currentSubCategory ? 'Edit Subkategori' : 'Tambah Subkategori'}
+        </h3>
+        <button onClick={() => setShowSubCategoryModal(false)} className="text-gray-500 hover:text-gray-700">
+          <FiX size={24} />
+        </button>
+      </div>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        handleCategorySubmit(e, true);
+      }} className="p-6">
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Nama Subkategori
+          </label>
+          <input
+            type="text"
+            required
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Masukkan nama subkategori"
+          />
+        </div>
+        {/* <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Kategori Induk</label>
+          <select
+            value={parentCategory}
+            onChange={(e) => setParentCategory(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          >
+            <option value="">Pilih Kategori Induk</option>
+            {categories.map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
+        </div> */}
+        <div className="flex justify-end space-x-3">
+          <button
+            type="button"
+            onClick={() => setShowSubCategoryModal(false)}
+            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+          >
+            Batal
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center"
+          >
+            <FiCheck className="mr-2" /> {currentSubCategory ? 'Simpan Perubahan' : 'Tambah'}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
       
       {/* Modal Produk */}
       {showProductModal && (
