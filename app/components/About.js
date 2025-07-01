@@ -1,130 +1,102 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import Image from 'next/image';
 
-const tabs = [
-  {
-    id: 'profile',
-    label: 'Our Profile',
-    image: '/img/about.png',
-    content: (
-      <>
-        <p>
-        We are the best orthopedic implant distributor company in Indonesia 
-        that has collaborated with more than 100 hospitals throughout Indonesia.
-        </p>
-        <p>
-        Our tools already have a distribution permit certificate from the authorized agency, so they are legal to distribute. 
-        Our sales data has reached above 5000 pcs, which makes our company reliable to complete global demand.
-        </p>
-        <p>
-        These orthopedic implants can prevent and diagnose and relieve disease, treat the sick,
-        restore health to humans, and/or shape structures body function.
-        </p>
-      </>
-    ),
-  },
-  {
-    id: 'vision',
-    label: 'Our Vision',
-    image: '/img/about2.png',
-    content: (
-      <>
-        <p>
-        Our vision is to be a leading company in the field of orthopedic health. 
-        By always providing solutions and providing quality products from
-        the United Orthopedic Corporation in an innovative and best quality 
-        so that we can cover a national and international scale.        </p>
-      </>
-    ),
-  },
-  {
-    id: 'history',
-    label: 'Our History',
-    image: '/img/about3.png',
-    content: (
-      <>
-        <p>
-        Established in 2016, PT. Biotek Inti Korporindo is a company engaged in Medical Devices and Pharmaceuticals. 
-        A national-scale company that cooperates with international companies, such as the United Orthopedic Corporation, 
-        Rapigen and others in developing distributors of medical devices, especially in areas such as bone orthopedics, antigens and other medical device products for use in hospitals by doctors, other medical personnel.
-        </p>
-        <p>
-        PT. Biotek Inti Korporindo connects patients with expert doctors by providing information that is broad enough
-        to include good product information. Looking beyond future technology, our true commitment lies in helping people live healthy lives.        
-        </p>
-      </>
-    ),
-  },
-];
-
 export default function AboutTabs() {
-    const [activeTab, setActiveTab] = useState('profile');
-    const [isFading, setIsFading] = useState(false);
-  
-    const handleTabChange = (id, string) => {
-      setIsFading(true); // start fading out
-      setTimeout(() => {
-        setActiveTab(id); // switch tab after fade out
-        setIsFading(false); // fade in
-      }, 200); // match duration with Tailwind transition
-    };
-  
-    return (
-      <section id="about" className="section-area py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 items-center">
-            <div className="w-full max-w-[480px] mx-auto" data-aos="fade-right">
-              <Image
-                src={tabs.find((tab) => tab.id === activeTab)?.image || '/img/about.png'}
-                alt="About image"
-                width={480}
-                height={400}
-                className={`rounded-xl w-full h-auto transition-opacity duration-300 ${
+  const [activeTab, setActiveTab] = useState('profile');
+  const [isFading, setIsFading] = useState(false);
+  const t = useTranslations('About');
+
+  // Fungsi untuk mendapatkan konten tab
+  const getTabContent = (tabId) => {
+    const content = t.raw(`${tabId}.content`);
+    return content.map((paragraph, index) => (
+      <p key={index} className="mb-3">{paragraph}</p>
+    ));
+  };
+
+  const handleTabChange = (id) => {
+    setIsFading(true);
+    setTimeout(() => {
+      setActiveTab(id);
+      setIsFading(false);
+    }, 200);
+  };
+
+  // Daftar tab dengan data yang diambil dari terjemahan
+  const tabs = [
+    {
+      id: 'profile',
+      label: t('profile.label'),
+      image: '/img/about.png',
+    },
+    {
+      id: 'vision',
+      label: t('vision.label'),
+      image: '/img/about2.png',
+    },
+    {
+      id: 'history',
+      label: t('history.label'),
+      image: '/img/about3.png',
+    },
+  ];
+
+  return (
+    <section id="about" className="section-area py-16">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 items-center">
+          <div className="w-full max-w-[480px] mx-auto" data-aos="fade-right">
+            <Image
+              src={tabs.find((tab) => tab.id === activeTab)?.image || '/img/about.png'}
+              alt="About image"
+              width={480}
+              height={400}
+              className={`rounded-xl w-full h-auto transition-opacity duration-300 ${
                 isFading ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
+          </div>
+
+          <div className="w-full">
+            <h6 className="mb-2 text-lg font-semibold text-primary" data-aos="fade-up">{t('title1')}</h6>
+            <h2 className="mb-6 text-2xl font-bold" data-aos="fade-up">
+              {t('title')}
+            </h2>
+
+            <nav className="flex flex-wrap gap-4 my-8" role="tablist" aria-label="About us tabs" data-aos="fade-up">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`tabs-link inline-block py-2 px-4 rounded-md font-medium ${
+                    activeTab === tab.id
+                      ? 'bg-primary text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-primary hover:text-white'
                   }`}
-              />
-            </div>
-  
-            <div className="w-full">
-              <h6 className="mb-2 text-lg font-semibold text-primary" data-aos="fade-up">About Us</h6>
-              <h2 className="mb-6 text-2xl font-bold" data-aos="fade-up">
-              The Best Implant Orthopedic Distributor Company
-              </h2>
-  
-              <nav className="flex flex-wrap gap-4 my-8" role="tablist" aria-label="About us tabs" data-aos="fade-up">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => handleTabChange(tab.id)}
-                    className={`tabs-link inline-block py-2 px-4 rounded-md font-medium ${
-                      activeTab === tab.id
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-primary hover:text-white'
-                    }`}
-                    role="tab"
-                    aria-selected={activeTab === tab.id}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </nav>
-              <div data-aos="fade-up">
-                <div
-                  className={`relative min-h-[300px] transition-opacity duration-300 ease-in-out ${
-                    isFading ? 'opacity-0' : 'opacity-100'
-                  }`}
-                  role="tabpanel"
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
                 >
-                  {tabs.find((tab) => tab.id === activeTab)?.content}
-                </div>
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+            <div data-aos="fade-up">
+              <div
+                className={`relative min-h-[300px] transition-opacity duration-300 ease-in-out ${
+                  isFading ? 'opacity-0' : 'opacity-100'
+                }`}
+                role="tabpanel"
+              >
+                {getTabContent(activeTab)}
               </div>
-              
             </div>
           </div>
         </div>
-      </section>
-    );
+      </div>
+    </section>
+  );
 }
 
 

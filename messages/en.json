@@ -1,0 +1,97 @@
+{
+  "About": {
+    "title": "The Best Implant Orthopedic Distributor Company",
+    "title1": "About Us",
+    "profile": {
+      "label": "Our Profile",
+      "content": [
+        "We are the best orthopedic implant distributor company in Indonesia that has collaborated with more than 100 hospitals throughout Indonesia.",
+        "Our tools already have a distribution permit certificate from the authorized agency, so they are legal to distribute. Our sales data has reached above 5000 pcs, which makes our company reliable to complete global demand.",
+        "These orthopedic implants can prevent and diagnose and relieve disease, treat the sick, restore health to humans, and/or shape structures body function."
+      ]
+    },
+    "vision": {
+      "label": "Our Vision",
+      "content": [
+        "Our vision is to be a leading company in the field of orthopedic health. By always providing solutions and providing quality products from the United Orthopedic Corporation in an innovative and best quality so that we can cover a national and international scale."
+      ]
+    },
+    "history": {
+      "label": "Our History",
+      "content": [
+        "Established in 2016, PT. Biotek Inti Korporindo is a company engaged in Medical Devices and Pharmaceuticals. A national-scale company that cooperates with international companies, such as the United Orthopedic Corporation, Rapigen and others in developing distributors of medical devices, especially in areas such as bone orthopedics, antigens and other medical device products for use in hospitals by doctors, other medical personnel.",
+        "PT. Biotek Inti Korporindo connects patients with expert doctors by providing information that is broad enough to include good product information. Looking beyond future technology, our true commitment lies in helping people live healthy lives."
+      ]
+    }
+  },
+  "Navbar": {
+    "home":"Home",
+    "about":"About",
+    "products":"Products",
+    "services":"Services",
+    "partners":"Partner",
+    "contact":"Contact",
+    "get-in-touch":"Get in Touch"
+  },
+  "Hero":{
+    "title1":"The Best Choice",
+    "title2":"For a Healthier Future",
+    "subtitle":"Empower your health journey with products designed for well-being and longevity.",
+    "learn-more":"Learn More"
+  },
+  "OurWork":{
+    "title1":"Our Work",
+    "title2":"What We've Done For People",
+    "subtitle":"PT. Biotek Inti Korporindo has more than 5 years of experience providing implant products orthopedics for use by Orthopedic and Traumatology Specialists.",
+    "surgery":"Surgery Completed",
+    "orthopedic":"Orthopedic Specialists",
+    "hospitals":"Hospitals",
+    "area":"Area Coverage"
+  },
+  "Contact":{
+    "title":"Contact Us",
+    "subtitle":"If you are interested in our products and want to know more details, please leave a message here, we will reply you as soon as we can.",
+    "form":{
+      "name":"Name",
+      "email":"Email",
+      "message":"Message"
+    }
+  },
+  "Footer":{
+    "caption":"We are the best orthopedic implant distributor company in Indonesia.",
+    "product":{
+      "title":"Product",
+      "all-products":"All Products",
+      "hip-stem":"Hip Stem",
+      "knee-stem":"Knee Stem",
+      "others":"Others"
+    },
+    "company":{
+      "title":"Company",
+      "about-us":"About Us",
+      "services":"Services",
+      "testimonial":"Testimonial",
+      "contact-us":"Contact Us"
+    },
+    "quick-links":{
+      "home":"Home",
+      "partners":"Partner",
+      "products":"Products"
+    }
+  },
+  "Partners":{
+    "title":"Our Awesome Partners"
+  },
+  "Products":{
+    "banner":{
+      "title":"Our Orthopedic Products",
+      "subtitle":"Complete solutions for implant and bone health needs."
+    },
+    "categories":"Categories",
+    "footer":{
+      "title":"Need Professional Guidance?",
+      "subtitle":"Our orthopedic specialists are ready to assist you in selecting the perfect solution",
+      "consult-now":"Consult Now"
+    }
+  }
+}

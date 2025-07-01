@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ClientModal from "./ClientModal";
 import Image from "next/image";
+import { useTranslations } from 'next-intl';
 
 const clients = [
   {
@@ -201,6 +202,7 @@ const clients = [
 
 export default function Partner() {
   const [selectedClient, setSelectedClient] = useState(null);
+  const t = useTranslations('Partners');
 
   return (
     <section id="clients" className="section-area py-20">
@@ -209,12 +211,11 @@ export default function Partner() {
       
       <div className="container mx-auto px-4">
         <div className="scroll-revealed text-center max-w-xl mx-auto mb-12">
-          <h6 className="mb-2 text-lg font-semibold text-primary" data-aos="fade-up">Clients</h6>
-          <h2 className="mb-6 text-3xl font-bold" data-aos="fade-up">Our Awesome Partners</h2>
-          <p className="text-gray-600 dark:text-gray-300" data-aos="fade-up">
+          <h2 className="mb-6 text-3xl font-bold" data-aos="fade-up">{t('title')}</h2>
+          {/* <p className="text-gray-600 dark:text-gray-300" data-aos="fade-up">
             There are many variations of passages of Lorem Ipsum available but the majority have
             suffered alteration in some form.
-          </p>
+          </p> */}
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">

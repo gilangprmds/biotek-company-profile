@@ -1,6 +1,6 @@
-import Partner from "../components/Partner";
-import Footer2 from "../components/Footer2";
-import Navbar2 from "../components/Navbar2";
+import Partner from "../../components/Partner";
+import Footer2 from "../../components/Footer2";
+import Navbar2 from "../../components/Navbar2";
 
 export default function PartnerPage(){
     return(

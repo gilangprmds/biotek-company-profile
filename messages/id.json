@@ -1,0 +1,98 @@
+{
+  "About": {
+    "title": "Perusahaan Distributor Implan Ortopedi Terbaik",
+    "title1": "Tentang Kami",
+    "profile": {
+      "label": "Profil Kami",
+      "content": [
+        "Kami adalah perusahaan distributor implan ortopedi terbaik di Indonesia yang telah berkolaborasi dengan lebih dari 100 rumah sakit di seluruh Indonesia.",
+        "Alat kami sudah memiliki sertifikat izin distribusi dari agensi berwenang, sehingga legal didistribusikan. Data penjualan kami telah mencapai di atas 5000 pcs, yang membuat perusahaan kami andal untuk memenuhi permintaan global.",
+        "Implan ortopedi ini dapat mencegah dan mendiagnosis serta meredakan penyakit, mengobati yang sakit, mengembalikan kesehatan pada manusia, dan/atau membentuk fungsi struktur tubuh."
+      ]
+    },
+    "vision": {
+      "label": "Visi Kami",
+      "content": [
+        "Visi kami adalah menjadi perusahaan terkemuka di bidang kesehatan ortopedi. Dengan selalu memberikan solusi dan menyediakan produk berkualitas dari United Orthopedic Corporation secara inovatif dan kualitas terbaik sehingga kami dapat mencakup skala nasional dan internasional."
+      ]
+    },
+    "history": {
+      "label": "Sejarah Kami",
+      "content": [
+        "Didirikan pada tahun 2016, PT. Biotek Inti Korporindo adalah perusahaan yang bergerak di bidang Alat Kesehatan dan Farmasi. Perusahaan berskala nasional yang bekerja sama dengan perusahaan internasional, seperti United Orthopedic Corporation, Rapigen dan lainnya dalam mengembangkan distributor alat kesehatan terutama di bidang seperti ortopedi tulang, antigen dan produk alat kesehatan lainnya untuk digunakan di rumah sakit oleh dokter, tenaga medis lainnya.",
+        "PT. Biotek Inti Korporindo menghubungkan pasien dengan dokter ahli dengan memberikan informasi yang cukup luas untuk mencakup informasi produk yang baik. Melihat melampaui teknologi masa depan, komitmen sejati kami terletak pada membantu orang menjalani hidup sehat."
+      ]
+    }
+  },
+  "Navbar": {
+    "home":"Beranda",
+    "about":"Tentang",
+    "products":"Produk",
+    "services":"Layanan",
+    "partners":"Mitra",
+    "contact":"Kontak",
+    "get-in-touch":"Hubungi Kami"
+  },
+  "Hero":{
+    "title1":"Pilihan Terbaik",
+    "title2":"Untuk Masa Depan yang Lebih Sehat",
+    "subtitle":"Wujudkan perjalanan sehatmu dengan produk-produk yang dirancang untuk bikin kamu sejahtera dan panjang umur.",
+    "learn-more":"Lebih Lanjut"
+  },
+  "OurWork":{
+    "title1":"Hasil Kerja Kami",
+    "title2":"Yang Telah Kami Lakukan Untuk Masyarakat",
+    "subtitle":"PT. Biotek Inti Korporindo memiliki pengalaman lebih dari 5 tahun dalam menyediakan produk implan ortopedi untuk digunakan oleh Dokter Spesialis Ortopedi dan Traumatologi.",
+    "surgery":"Bedah Selesai",
+    "orthopedic":"Spesialis Ortopedi",
+    "hospitals":"Rumah Sakit",
+    "area":"Cakupan Wilayah"
+  },
+  "Contact":{
+    "title":"Hubungi Kami",
+    "subtitle":"Jika Anda tertarik dengan produk kami dan ingin mengetahui lebih detail, silakan tinggalkan pesan di sini, kami akan membalas Anda sesegera mungkin.",
+    "form":{
+      "name":"Nama",
+      "email":"Email",
+      "message":"Pesan"
+    }
+  },
+  "Footer":{
+    "caption":"Kami merupakan perusahaan distributor implan ortopedi terbaik di Indonesia.",
+    "product":{
+      "title":"Produk",
+      "all-products":"Semua Produk",
+      "hip-stem":"Hip Stem",
+      "knee-stem":"Knee Stem",
+      "others":"Lainnya"
+    },
+    "company":{
+      "title":"Perusahaan",
+      "about-us":"Tentang Kami",
+      "services":"Layanan",
+      "testimonial":"Testimonial",
+      "contact-us":"Kontak Kami"
+    },
+    "quick-links":{
+      "title":"Quick Links",
+      "home":"Beranda",
+      "partners":"Mitra",
+      "products":"Produk"
+    }
+  },
+  "Partners":{
+    "title":"Mitra Luar Biasa Kami"
+  },
+  "Products":{
+    "banner":{
+      "title":"Produk Ortopedi Kami",
+      "subtitle":"Solusi lengkap kebutuhan implan dan kesehatan tulang."
+    },
+    "categories":"Kategori",
+    "footer":{
+      "title":"Butuh Bimbingan Profesional?",
+      "subtitle":"Spesialis ortopedi kami siap membantu Anda dalam memilih solusi yang tepat",
+      "consult-now":"Konsultasi Sekarang"
+    }
+  }
+}

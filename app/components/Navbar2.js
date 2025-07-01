@@ -4,25 +4,74 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function Navbar2() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [activeSection, setActiveSection] = useState(pathname === '/' ? 'home' : '');
   const router = useRouter();
-  const [isSticky, setIsSticky] =  useState(pathname !== '/' ? true : false);
+  const t = useTranslations('Navbar');
+  
+  // Konfigurasi bahasa
+  const defaultLocale = 'en';
+  const locales = ['en', 'id'];
+  
+  // Ekstrak locale dari pathname
+  const pathSegments = pathname.split('/').filter(segment => segment !== '');
+  const currentLocale = pathSegments.length > 0 && locales.includes(pathSegments[0]) ? pathSegments[0] : defaultLocale;
+  
+  const isHomePage = pathname === '/' 
+    || pathname === `/${currentLocale}` 
+    || pathname === `/${currentLocale}/`;
+  
+  const [activeSection, setActiveSection] = useState(isHomePage ? 'home' : '');
+  const [isSticky, setIsSticky] = useState(!isHomePage);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-
   
+  // Daftar bahasa yang didukung
+  const languages = [
+    { code: 'en', name: 'EN' },
+    { code: 'id', name: 'ID' },
+  ];
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchInput.trim()) {
-      router.push(`/products?search=${encodeURIComponent(searchInput.trim())}`);
+      // Untuk default locale (en) tidak perlu prefix
+      const searchPath = currentLocale === defaultLocale 
+        ? `/products?search=${encodeURIComponent(searchInput.trim())}`
+        : `/${currentLocale}/products?search=${encodeURIComponent(searchInput.trim())}`;
+      
+      router.push(searchPath);
       setIsSearchModalOpen(false);
       setSearchInput("");
       setIsMenuOpen(false);
     }
+  };
+
+  // Fungsi untuk mengganti bahasa (diperbaiki)
+  const changeLanguage = (newLocale) => {
+    // Dapatkan path tanpa locale saat ini
+    const pathWithoutLocale = pathSegments
+      .filter(segment => !locales.includes(segment))
+      .join('/');
+    
+    // Bangun URL baru berdasarkan locale
+    let newPath;
+    
+    if (newLocale === defaultLocale) {
+      // Untuk bahasa default, URL tanpa prefix
+      newPath = pathWithoutLocale ? `/${pathWithoutLocale}` : '/';
+    } else {
+      // Untuk bahasa non-default, tambahkan prefix
+      newPath = pathWithoutLocale 
+        ? `/${newLocale}/${pathWithoutLocale}` 
+        : `/${newLocale}`;
+    }
+    
+    router.push(newPath);
+    setIsMenuOpen(false);
   };
 
   // Toggle mobile menu
@@ -31,7 +80,7 @@ export default function Navbar2() {
   // Sticky navbar handler
   useEffect(() => {
     const handleScroll = () => {
-      if (pathname === '/') {
+      if (isHomePage) {
         setIsSticky(window.scrollY >= 72);
 
         const sections = ['home', 'about', 'services', 'contact'];
@@ -47,14 +96,16 @@ export default function Navbar2() {
         }
       }
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [pathname]);
+  }, [isHomePage]);
+
 
   // Scroll into view if needed when navigating from another page
   useEffect(() => {
     const target = localStorage.getItem('scrollTarget');
-    if (pathname === '/' && target) {
+    if (isHomePage && target) {
       const el = document.getElementById(target);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
@@ -62,12 +113,13 @@ export default function Navbar2() {
         localStorage.removeItem('scrollTarget');
       }
     }
-  }, [pathname]);
+  }, [isHomePage]);
 
   const handleSectionClick = (e, sectionId) => {
     e.preventDefault();
     setIsMenuOpen(false);
-    if (pathname === '/') {
+    
+    if (isHomePage) {
       const el = document.getElementById(sectionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
@@ -75,18 +127,17 @@ export default function Navbar2() {
       }
     } else {
       localStorage.setItem('scrollTarget', sectionId);
-      router.push('/');
+      router.push(`/${currentLocale}`);
     }
   };
 
   const navItems = [
-    { name: 'Home', id: 'home' },
-    { name: 'About', id: 'about' },
-    { name: 'Products', path: '/products' },
-    { name: 'Services', id: 'services' },
-    { name: 'Partners', path: '/partners' },
-    { name: 'Contact', id: 'contact' },
-    
+    { name: t('home'), id: 'home' },
+    { name: t('about'), id: 'about' },
+    { name: t('products'), path: '/products' },
+    { name: t('services'), id: 'services' },
+    { name: t('partners'), path: '/partners' },
+    { name: t('contact'), id: 'contact' },
   ];
 
   return (
@@ -105,7 +156,10 @@ export default function Navbar2() {
 
           {/* Logo */}
           <div className="w-60 lg:w-56 max-w-full px-6">
-            <Link href="/" className="ic-navbar-logo block w-full py-5 text-primary-color">
+            <Link 
+              href={currentLocale === defaultLocale ? '/' : `/${currentLocale}`} 
+              className="ic-navbar-logo block w-full py-5 text-primary-color"
+            >
               <Image
                 src="/img/logo.png"
                 alt="Company Logo"
@@ -117,24 +171,24 @@ export default function Navbar2() {
           </div>
 
           <button
-                onClick={() => setIsSearchModalOpen(true)}
-                aria-label="Open search modal"
-                className="ml-auto mr-4 mb-2 text-gray-600 dark:text-white hover:text-blue-600 transition lg:hidden"
-                >
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
-                    />
-                </svg>
-            </button>
+            onClick={() => setIsSearchModalOpen(true)}
+            aria-label="Open search modal"
+            className="ml-auto mr-4 mb-2 text-gray-600 dark:text-white hover:text-blue-600 transition lg:hidden"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
+              />
+            </svg>
+          </button>
 
           {/* Mobile Menu Toggle */}
           <button
@@ -171,16 +225,16 @@ export default function Navbar2() {
                     </a>
                   ) : (
                     <Link
-                      href={path}
+                      href={`/${currentLocale}${path}`}
                       onClick={() => setIsMenuOpen(false)}
                       className={`relative group text-lg font-medium transition-colors duration-300 hover:text-body-dark-5 ${
-                        pathname === path ? 'text-body-dark-5 dark:text-blue-400' : 'text-body-dark-5 dark:text-body-dark-12'
+                        pathname.includes(path) ? 'text-body-dark-5 dark:text-blue-400' : 'text-body-dark-5 dark:text-body-dark-12'
                       }`}
                     >
                       {name}
                       <span
                         className={`absolute left-1/2 -bottom-2 h-[3px] bg-blue-700 transform -translate-x-1/2 origin-center transition-all duration-700 ease-in-out ${
-                          pathname.startsWith(`${path}`) ? 'w-full' : 'w-0 group-hover:w-full'
+                          pathname.includes(path) ? 'w-full' : 'w-0 group-hover:w-full'
                         }`}
                       />
                     </Link>
@@ -195,8 +249,25 @@ export default function Navbar2() {
                   onClick={(e) => handleSectionClick(e, 'contact')}
                   className="block w-full text-center px-4 py-2 mt-4 bg-blue-600 text-white rounded hover:bg-blue-700 hover:text-white transition"
                 >
-                  Get in Touch
+                  {t('get-in-touch')}
                 </a>
+              </li>
+              
+              {/* Language Switcher - Mobile */}
+              <li className="lg:hidden flex items-center space-x-4 mt-4">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`px-3 py-1 rounded-md ${
+                      currentLocale === lang.code
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                    }`}
+                  >
+                    {lang.name}
+                  </button>
+                ))}
               </li>
             </ul>
           </nav>
@@ -204,25 +275,26 @@ export default function Navbar2() {
           {/* Right Side Icons */}
           <div className="hidden lg:flex items-center gap-4 pr-4">
             <button
-                onClick={() => setIsSearchModalOpen(true)}
-                aria-label="Open search modal"
-                className="text-gray-600 dark:text-white hover:text-blue-600 transition"
-                >
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
-                    />
-                </svg>
+              onClick={() => setIsSearchModalOpen(true)}
+              aria-label="Open search modal"
+              className="text-gray-600 dark:text-white hover:text-blue-600 transition"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
+                />
+              </svg>
             </button>
-
+            
+            
 
             {/* CTA Button */}
             <a
@@ -230,8 +302,25 @@ export default function Navbar2() {
               onClick={(e) => handleSectionClick(e, 'contact')}
               className="ml-3 px-5 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 hover:text-white transition"
             >
-              Get in Touch
+              {t('get-in-touch')}
             </a>
+
+            {/* Language Switcher */}
+            <div className="flex items-center space-x-2 border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => changeLanguage(lang.code)}
+                  className={`px-3 py-1 text-sm transition-colors ${
+                    currentLocale === lang.code
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  {lang.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -239,47 +328,47 @@ export default function Navbar2() {
 
     {/* Search Modal */}
     {isSearchModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" >
-                <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-md mx-4 relative" data-aos="zoom-in">
-                {/* Close button */}
-                <button
-                    onClick={() => setIsSearchModalOpen(false)}
-                    className="absolute top-0 right-2 text-xl font-bold text-gray-600 dark:text-white hover:text-blue-600"
-                    aria-label="Close search modal"
-                >
-                    &times;
-                </button>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" >
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-md mx-4 relative" data-aos="zoom-in">
+          {/* Close button */}
+          <button
+            onClick={() => setIsSearchModalOpen(false)}
+            className="absolute top-0 right-2 text-xl font-bold text-gray-600 dark:text-white hover:text-blue-600"
+            aria-label="Close search modal"
+          >
+            &times;
+          </button>
 
-                <form onSubmit={handleSearchSubmit} className="relative w-full">
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        className="px-4 w-full py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <button
-                        type="submit"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
-                    >
-                        <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                        >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
-                        />
-                        </svg>
-                    </button>
-                </form>
-                </div>
-            </div>
-            )}
+          <form onSubmit={handleSearchSubmit} className="relative w-full">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              className="px-4 w-full py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1118 9a7.5 7.5 0 01-1.35 7.65z"
+                />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    )}
     </>
   );
 }

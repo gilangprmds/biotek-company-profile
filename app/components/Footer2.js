@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 
 export default function Footer2(){
+	const t = useTranslations('Footer');
     return(
         <footer className="px-4 divide-y bg-gray-800 dark:bg-gray-100 text-gray-100 dark:text-gray-800">
 	<div className="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
@@ -20,16 +22,16 @@ export default function Footer2(){
           </div>
   
                 <p className="mb-8 max-w-full text-body-dark-11">
-                We are the best orthopedic implant distributor company in Indonesia.
+                {t('caption')}
                 </p>
               </div>
             </div>
 		<div className="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4">
 			<div className="space-y-3">
-				<h6 className="tracking-wide uppercase text-gray-50 dark:text-gray-900">Product</h6>
+				<h6 className="tracking-wide uppercase text-gray-50 dark:text-gray-900">{t('product.title')}</h6>
 				<ul className="space-y-1">
 					<li>
-					<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "All Product" } }}>All Products</Link>
+					<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "All Product" } }}>{t('product.all-products')}</Link>
 					</li>
 					<li>
 						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Hip Stem" } }}>Hip Stem</Link>
@@ -38,38 +40,38 @@ export default function Footer2(){
 						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Knee Stem" } }}>Knee Stem</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Others" } }}>Others</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Others" } }}>{t('product.others')}</Link>
 					</li>
 				</ul>
 			</div>
 			<div className="space-y-3">
-				<h6 className="tracking-wide uppercase text-gray-50 dark:text-gray-900">Company</h6>
+				<h6 className="tracking-wide uppercase text-gray-50 dark:text-gray-900">{t('company.title')}</h6>
 				<ul className="space-y-1">
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#about">About Us</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#about">{t('company.about-us')}</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#services">Services</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#services">{t('company.services')}</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#testimonials">Testimonials</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#testimonials">{t('company.testimonial')}</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#contact">Contact Us</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#contact">{t('company.contact-us')}</Link>
 					</li>
 				</ul>
 			</div>
 			<div className="space-y-3">
-				<h6 className="uppercase text-gray-50 dark:text-gray-900">Quick Links</h6>
+				<h6 className="uppercase text-gray-50 dark:text-gray-900">{t('quick-links.title')}</h6>
 				<ul className="space-y-1">
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/">Home</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/">{t('quick-links.home')}</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/partners">Partners</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/partners">{t('quick-links.partners')}</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/products">Products</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/products">{t('quick-links.products')}</Link>
 					</li>
 				</ul>
 			</div>

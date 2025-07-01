@@ -1,8 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
+
 
 export default function Contact() {
+  const t = useTranslations('Contact');
 
   const [formData, setFormData] = useState({
   name: '',
@@ -89,11 +92,11 @@ const handleSubmit = async (e) => {
     {/* Contact Form */}
   
     <form onSubmit={handleSubmit} className="lg:w-1/3 bg-none flex flex-col w-full md:py-8 mt-8 md:mt-0">
-      <h2 className="text-gray-900 mb-1 font-bold title-font" data-aos="fade-up">Contact Us</h2>
-      <p className="leading-relaxed mb-5 text-gray-600" data-aos="fade-up">If you are interested in our products and want to know more details, please leave a message here, we will reply you as soon as we can.</p>
+      <h2 className="text-gray-900 mb-1 font-bold title-font" data-aos="fade-up">{t('title')}</h2>
+      <p className="leading-relaxed mb-5 text-gray-600" data-aos="fade-up">{t('subtitle')}</p>
 
       <div className="relative mb-4" data-aos="fade-up">
-        <label htmlFor="name" className="leading-7 text-sm text-gray-600">Name</label>
+        <label htmlFor="name" className="leading-7 text-sm text-gray-600">{t('form.name')}</label>
         <input
           type="text"
           id="name"
@@ -106,7 +109,7 @@ const handleSubmit = async (e) => {
       </div>
 
       <div className="relative mb-4" data-aos="fade-up">
-        <label htmlFor="email" className="leading-7 text-sm text-gray-600">Email</label>
+        <label htmlFor="email" className="leading-7 text-sm text-gray-600">{t('form.email')}</label>
         <input
           type="email"
           id="email"
@@ -119,7 +122,7 @@ const handleSubmit = async (e) => {
       </div>
 
       <div className="relative mb-4" data-aos="fade-up">
-        <label htmlFor="message" className="leading-7 text-sm text-gray-600">Message</label>
+        <label htmlFor="message" className="leading-7 text-sm text-gray-600">{t('form.message')}</label>
         <textarea
           id="message"
           name="message"

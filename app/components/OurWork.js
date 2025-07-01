@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { FaBriefcaseMedical, FaUserMd, FaHospital, FaMapMarkedAlt } from "react-icons/fa";
+import { useTranslations } from 'next-intl';
 
 export default function OurWork() {
+  const t = useTranslations('OurWork');
     return(
       <section className="bg-white py-16 px-4 md:py-24 md:px-8">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12">
@@ -23,35 +25,34 @@ export default function OurWork() {
         {/* Stats Grid dengan Ikon */}
         <div className="md:w-1/2">
         <h2 className="text-blue-600 font-bold uppercase text-lg mb-4" data-aos="fade-up">
-            OUR WORK
+            {t('title1')}
           </h2>
           <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6" data-aos="fade-up">
-            What We've Done For People
+          {t('title2')}
           </h3>
           <p className="text-gray-600 text-lg leading-relaxed" data-aos="fade-up">
-            PT. Biotek Inti Korporindo has more than 5 years of experience providing implant 
-            products orthopedics for use by Orthopedic and Traumatology Specialists.
+          {t('subtitle')}
           </p>
           <div className="grid grid-cols-2 gap-8">
             <StatCard 
               icon={<FaBriefcaseMedical className="w-full h-full" />}
               number="6578"
-              label="Surgery Completed"
+              label={t('surgery')}
             />
             <StatCard 
               icon={<FaUserMd className="w-full h-full" />}
               number="1255"
-              label="Orthopedic Specialists"
+              label={t('orthopedic')}
             />
             <StatCard 
               icon={<FaHospital className="w-full h-full" />}
               number="75"
-              label="Hospitals"
+              label={t('hospitals')}
             />
             <StatCard 
               icon={<FaMapMarkedAlt className="w-full h-full" />}
               number="1157"
-              label="Area Coverage"
+              label={t('area')}
             />
           </div>
         </div>
