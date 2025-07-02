@@ -7,7 +7,7 @@ export default function PartnerPage(){
 <>
     
     <Navbar2 />
-  <main class="main relative">
+  <main className="main relative">
    <Partner />
   </main>
   <Footer2 />

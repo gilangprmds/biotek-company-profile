@@ -8,7 +8,7 @@ export default function Page(){
 <>
     
     <Navbar2 />
-  <main class="main relative">
+  <main className="main relative">
     {/* <Products /> */}
     <Product2 />
   </main>
