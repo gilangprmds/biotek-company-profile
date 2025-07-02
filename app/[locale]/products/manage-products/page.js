@@ -45,7 +45,7 @@ const openCategoryModal = (category = null) => {
 const openSubCategoryModal = (subCategory = null) => {
   setCurrentSubCategory(subCategory);
   setCategoryName(subCategory?.name || '');
-  setParentCategory(subCategory?.productCategoryId || '');
+  setParentCategory(subCategory?.productCategoryName || '');
   setShowSubCategoryModal(true);
 };
 
@@ -158,7 +158,7 @@ const openSubCategoryModal = (subCategory = null) => {
       
       body = JSON.stringify({ 
         name: categoryName,
-        productCategoryId: parentCategory 
+        productCategory: parentCategory 
       });
     } else {
       // Handle kategori utama
@@ -742,7 +742,7 @@ const openSubCategoryModal = (subCategory = null) => {
             placeholder="Masukkan nama subkategori"
           />
         </div>
-        {/* <div className="mb-6">
+        <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">Kategori Induk</label>
           <select
             value={parentCategory}
@@ -752,10 +752,10 @@ const openSubCategoryModal = (subCategory = null) => {
           >
             <option value="">Pilih Kategori Induk</option>
             {categories.map(cat => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
+              <option key={cat.name} value={cat.name}>{cat.name}</option>
             ))}
           </select>
-        </div> */}
+        </div>
         <div className="flex justify-end space-x-3">
           <button
             type="button"
