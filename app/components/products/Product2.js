@@ -99,7 +99,7 @@ export default function Product2() {
     <div>
       <section className="bg-gray-100 pb-20 pt-32 text-center">
         <h1 className="text-4xl font-bold text-gray-800 mb-4" data-aos="fade-up">{t('banner.title')}</h1>
-        <p className="text-gray-600 text-lg" data-aos="fade-up">{t('banner.subtitle')}</p>
+        {/* <p className="text-gray-600 text-lg" data-aos="fade-up">{t('banner.subtitle')}</p> */}
       </section>
 
       <div className="max-w-7xl mx-auto p-4">
