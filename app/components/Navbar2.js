@@ -11,7 +11,9 @@ export default function Navbar2() {
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations('Navbar');
-  
+  // State untuk dropdown language
+  const [isLangOpen, setIsLangOpen] = useState(false);
+
   // Konfigurasi bahasa
   const defaultLocale = 'en';
   const locales = ['en', 'id'];
@@ -29,10 +31,10 @@ export default function Navbar2() {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   
-  // Daftar bahasa yang didukung
-  const languages = [
-    { code: 'en', name: 'EN' },
-    { code: 'id', name: 'ID' },
+   // Daftar bahasa dengan bendera
+   const languages = [
+    { code: 'en', name: 'EN', flag: '/flags/en.svg' },
+    { code: 'id', name: 'ID', flag: '/flags/id.svg' },
   ];
 
   const handleSearchSubmit = (e) => {
@@ -253,22 +255,75 @@ export default function Navbar2() {
                 </a>
               </li>
               
-              {/* Language Switcher - Mobile */}
-              <li className="lg:hidden flex items-center space-x-4 mt-4">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => changeLanguage(lang.code)}
-                    className={`px-3 py-1 rounded-md ${
-                      currentLocale === lang.code
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
-                    }`}
-                  >
-                    {lang.name}
-                  </button>
-                ))}
-              </li>
+          {/* Language Switcher - Mobile (Dropdown with Flags) */}
+          <li className="lg:hidden mt-4">
+            <div className="relative">
+              <button
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className="flex items-center justify-between w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-md"
+                aria-haspopup="true"
+              >
+                <div className="flex items-center">
+                  <div className="w-6 h-4 mr-2 relative">
+                    <Image
+                      src={languages.find(lang => lang.code === currentLocale)?.flag || ''}
+                      alt={languages.find(lang => lang.code === currentLocale)?.name || 'Language flag'}
+                      fill
+                      className="object-cover"
+                      unoptimized // Hapus ini jika ingin dioptimalkan Next.js
+                    />
+                  </div>
+                  <span>{languages.find(lang => lang.code === currentLocale)?.name}</span>
+                </div>
+                <svg
+                  className={`w-4 h-4 transition-transform ${isLangOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {isLangOpen && (
+                <div className="absolute mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        changeLanguage(lang.code);
+                        setIsLangOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-3 text-sm flex items-center ${
+                        currentLocale === lang.code
+                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                          : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      <Image
+                        src={lang.flag}
+                        alt={lang.name}
+                        width={20}
+                        height={15}
+                        className="w-5 h-auto mr-2"
+                      />
+                      <span className="flex-1">{lang.name}</span>
+                      {currentLocale === lang.code && (
+                        <svg
+                          className="w-4 h-4 text-blue-600 dark:text-blue-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
             </ul>
           </nav>
 
@@ -305,22 +360,75 @@ export default function Navbar2() {
               {t('get-in-touch')}
             </a>
 
-            {/* Language Switcher */}
-            <div className="flex items-center space-x-2 border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
-              {languages.map((lang) => (
+            {/* Language Switcher - Dropdown with Flags */}
+            <div className="relative">
                 <button
-                  key={lang.code}
-                  onClick={() => changeLanguage(lang.code)}
-                  className={`px-3 py-1 text-sm transition-colors ${
-                    currentLocale === lang.code
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
+                  onClick={() => setIsLangOpen(!isLangOpen)}
+                  className="flex items-center space-x-2 px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  aria-haspopup="true"
+                  aria-expanded={isLangOpen}
                 >
-                  {lang.name}
+                  <div className="w-6 h-4 mr-2 relative">
+                      <Image
+                        src={languages.find(lang => lang.code === currentLocale)?.flag || ''}
+                        alt={languages.find(lang => lang.code === currentLocale)?.name || 'Language flag'}
+                        fill
+                        className="object-cover"
+                        unoptimized // Hapus ini jika ingin dioptimalkan Next.js
+                      />
+                    </div>
+                  <span>{languages.find(lang => lang.code === currentLocale)?.name}</span>
+                  <svg
+                    className={`w-4 h-4 transition-transform ${isLangOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
                 </button>
-              ))}
-            </div>
+
+                {isLangOpen && (
+                  <div 
+                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg overflow-hidden z-50"
+                    onMouseLeave={() => setIsLangOpen(false)}
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          changeLanguage(lang.code);
+                          setIsLangOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm flex items-center ${
+                          currentLocale === lang.code
+                            ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                            : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
+                        }`}
+                      >
+                        <Image
+                          src={lang.flag}
+                          alt={lang.name}
+                          width={20}
+                          height={15}
+                          className="w-5 h-auto mr-2"
+                        />
+                        <span className="flex-1">{lang.name}</span>
+                        {currentLocale === lang.code && (
+                          <svg
+                            className="w-4 h-4 text-blue-600 dark:text-blue-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
           </div>
         </div>
       </div>

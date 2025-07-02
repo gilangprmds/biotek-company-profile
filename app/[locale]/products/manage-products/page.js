@@ -319,7 +319,6 @@ const openSubCategoryModal = (subCategory = null) => {
         <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
           <div className="bg-gradient-to-r from-blue-600 to-indigo-700 py-6 px-8">
             <h1 className="text-3xl font-bold text-white">Manajemen Produk & Kategori</h1>
-            <p className="text-blue-100 mt-2">Kelola produk dan kategori Anda dengan mudah</p>
           </div>
         </div>
 
@@ -354,7 +353,6 @@ const openSubCategoryModal = (subCategory = null) => {
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <div>
                   <h2 className="text-xl font-semibold text-gray-800">Daftar Produk</h2>
-                  <p className="text-gray-600 mt-1">Kelola semua produk Anda di satu tempat</p>
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -429,7 +427,7 @@ const openSubCategoryModal = (subCategory = null) => {
                     <p className="text-gray-500 mb-4">Mulai dengan menambahkan produk baru</p>
                     <Link href="/products/add">
                   <button
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center whitespace-nowrap"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center justify-self-center whitespace-nowrap"
                   >
                     <FiPlus className="mr-2" /> Tambah Produk
                   </button>
