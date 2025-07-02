@@ -39,6 +39,25 @@
     "subtitle":"Empower your health journey with products designed for well-being and longevity.",
     "learn-more":"Learn More"
   },
+  "Services":{
+    "title1":"What we Serve",
+    "title2":"Our Best Services",
+    "subtitle":"",
+    "services":{
+      "arthoplasty":{
+        "title":"Arthoplasty",
+        "description":"Arthroplasty is a surgical procedure to repair or replace a damaged joint with a prosthesis (artificial joint) to reduce pain and improve joint function."
+      },
+      "trauma":{
+        "title":"Trauma",
+        "description":"Trauma surgery is a surgical specialty focused on treating severe injuries resulting from accidents, falls, violence, or other traumatic events."
+      },
+      "sport-medicine":{
+        "title":"Sport Medicine",
+        "description":"is a branch of medicine focused on physical fitness, injury prevention, and the treatment and rehabilitation of injuries related to sports and exercise."
+      }
+    }
+  },
   "OurWork":{
     "title1":"Our Work",
     "title2":"What We've Done For People",

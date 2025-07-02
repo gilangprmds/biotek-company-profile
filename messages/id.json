@@ -39,6 +39,25 @@
     "subtitle":"Wujudkan perjalanan sehatmu dengan produk-produk yang dirancang untuk bikin kamu sejahtera dan panjang umur.",
     "learn-more":"Lebih Lanjut"
   },
+  "Services":{
+    "title1":"Apa Yang Kami Layani",
+    "title2":"Layanan Terbaik Kami",
+    "subtitle":"",
+    "services":{
+      "arthoplasty":{
+        "title":"Arthoplasty",
+        "description":"Artroplasti adalah prosedur pembedahan untuk memperbaiki atau mengganti sendi yang rusak dengan prostesis (sendi buatan) untuk mengurangi nyeri dan meningkatkan fungsi sendi."
+      },
+      "trauma":{
+        "title":"Trauma",
+        "description":"Bedah trauma adalah spesialisasi bedah yang berfokus pada pengobatan cedera parah akibat kecelakaan, jatuh, kekerasan, atau peristiwa traumatis lainnya."
+      },
+      "sport-medicine":{
+        "title":"Sport Medicine",
+        "description":"adalah cabang kedokteran yang berfokus pada kebugaran jasmani, pencegahan cedera, serta pengobatan dan rehabilitasi cedera yang berkaitan dengan olahraga dan olah raga."
+      }
+    }
+  },
   "OurWork":{
     "title1":"Hasil Kerja Kami",
     "title2":"Yang Telah Kami Lakukan Untuk Masyarakat",
