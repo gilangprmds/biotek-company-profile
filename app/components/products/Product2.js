@@ -196,7 +196,7 @@ export default function Product2() {
               <>
                 {searchQuery && (
                   <p className="text-sm text-gray-600 mb-2 mx-4">
-                    {totalProducts} result{products.length > 1 ? "s" : ""} found for "<span className="font-semibold">{searchQuery}</span>"
+                    {totalProducts} result{products.length > 1 ? "s" : ""} found for &quot;<span className="font-semibold">{searchQuery}</span>&quot;
                   </p>
                 )}
 

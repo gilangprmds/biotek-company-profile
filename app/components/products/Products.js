@@ -114,8 +114,8 @@ export default function Products() {
               {/* Result Summary */}
               {searchQuery && (
                 <p className="text-sm text-gray-600 mb-2 mx-4">
-                  {filteredProducts.length} result{filteredProducts.length > 1 ? "s" : ""} found for "<span className="font-semibold">{searchQuery}</span>"
-                </p>
+                {totalProducts} result{products.length > 1 ? "s" : ""} found for &quot;<span className="font-semibold">{searchQuery}</span>&quot;
+              </p>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-2">
@@ -151,7 +151,7 @@ export default function Products() {
               </>
             ) : (
               <div className="text-center text-gray-500 py-12">
-                No products found for "<span className="font-semibold">{searchQuery}</span>".
+                No products found for &quot;<span className="font-semibold">{searchQuery}</span>&quot;.
               </div>
             )}
 
