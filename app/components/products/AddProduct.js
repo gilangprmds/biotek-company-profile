@@ -417,13 +417,14 @@ const openImageEditor = (index) => {
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Product Subcategories</label>
+                <label className="block text-sm font-medium text-gray-700">Product Subcategories*</label>
                 <select
                   name="productSubCategory"
                   value={productData.productSubCategory}
                   onChange={handleSubCategoryChange}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   disabled={!selectedCategoryId}
+                  required
                 >
                   <option value="">Select Subcategory</option>
                   {subCategories.map((subCat) => (

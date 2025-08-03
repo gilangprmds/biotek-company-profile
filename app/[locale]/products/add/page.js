@@ -9,7 +9,7 @@ export default function AddProductPage(){
 <>
   
   {/* <Navbar2 /> */}
-<main class="main relative">
+<main className="main relative">
  <AddProduct />
 </main>
 <Footer2 />
