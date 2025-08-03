@@ -6,12 +6,12 @@ import { usePathname } from 'next/navigation';
 
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [theme, setTheme] = useState('light');
-  const [activeSection, setActiveSection] = useState('home');
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const pathname = usePathname();
-  const [isSticky, setIsSticky] = pathname === '/' ? useState(false) : useState(true);
+const [isMenuOpen, setIsMenuOpen] = useState(false);
+const [theme, setTheme] = useState('light');
+const [activeSection, setActiveSection] = useState('home');
+const [isMoreOpen, setIsMoreOpen] = useState(false);
+const pathname = usePathname();
+const [isSticky, setIsSticky] = useState(pathname !== '/');
 
 
 
@@ -22,16 +22,15 @@ export default function Navbar() {
 
   // Sticky navbar handler
   useEffect(() => {
-    const handleScroll = () => {
-        if (pathname === '/'){
-          setIsSticky(window.scrollY >= 72);
-        }
-        
-    };
+  const handleScroll = () => {
+    if (pathname === '/') {
+      setIsSticky(window.scrollY >= 72);
+    }
+  };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, [pathname]);
 
   return (
 
