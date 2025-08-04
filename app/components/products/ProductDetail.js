@@ -5,7 +5,7 @@ import Breadcrumb from '../Breadcrumb';
 
 
 export default function ProductDetail({ product }) {
-  const imageBaseUrl = 'http://localhost:8080'; // Ganti sesuai backend kamu
+  const imageBaseUrl = 'http://152.42.244.64:8080'; // Ganti sesuai backend kamu
   const [activeImage, setActiveImage] = useState(product.productImages?.[0]?.urlImage);
   const [isModalOpen, setIsModalOpen] = useState(false);
   if (!product) return notFound();
