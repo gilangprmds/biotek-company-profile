@@ -25,7 +25,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Biotek Company Profile",
+  title: "Biotek Inti Korporindi",
   description: "The best orthopedic implant distributor company",
 };
 
@@ -61,7 +61,7 @@ return (
   <meta name="theme-color" content="#3d63dd" />
 
  
-  <title>PT. Biotek Inti Korporindo</title>
+  <title>Biotek Inti Korporindo</title>
 
   <link rel="canonical" href="https://ranyeh24.github.io/inazuma-tailwind" />
 

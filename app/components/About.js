@@ -3,6 +3,8 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import Image from 'next/image';
 
+
+
 export default function AboutTabs() {
   const [activeTab, setActiveTab] = useState('profile');
   const [isFading, setIsFading] = useState(false);
