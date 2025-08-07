@@ -212,16 +212,16 @@ export default function Product2() {
                         />
                       </div>
                       <div className="pt-4 min-h-[80px] place-content-center">
-                        <p className="text-sm text-center font-medium text-gray-800 mb-2">{product.name}</p>
+                        <p className="text-base text-center font-semibold text-gray-800 mb-2">{product.name}</p>
                       </div>
-                      <Link href={`/products/${product.slug}`}>
+                      {/* <Link href={`/products/${product.slug}`}>
                         <div className="inline-flex items-center justify-center w-full px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-800 transition-colors duration-200">
                           View Details
                           <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
                         </div>
-                      </Link>
+                      </Link> */}
                     </div>
                   ))}
                 </div>
