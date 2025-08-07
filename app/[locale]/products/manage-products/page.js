@@ -72,7 +72,7 @@ const openSubCategoryModal = (subCategory = null) => {
   const fetchCategories = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch('http://152.42.244.64:8080/product-category');
+      const res = await fetch('http://159.223.91.29:8080/product-category');
       const data = await res.json();
       setCategories(data.data);
       setIsLoading(false);
@@ -100,7 +100,7 @@ const openSubCategoryModal = (subCategory = null) => {
       params.append("page", currentPage - 1);
       params.append("size", productsPerPage);
 
-      const res = await fetch(`http://152.42.244.64:8080/product?${params.toString()}`);
+      const res = await fetch(`http://159.223.91.29:8080/product?${params.toString()}`);
       const data = await res.json();
       
       if (data.data) {
@@ -124,7 +124,7 @@ const openSubCategoryModal = (subCategory = null) => {
   const calculateCategoryCounts = async () => {
     try {
       // Fetch semua produk tanpa pagination untuk menghitung jumlah per kategori
-      const res = await fetch('http://152.42.244.64:8080/product?size=1000');
+      const res = await fetch('http://159.223.91.29:8080/product?size=1000');
       const data = await res.json();
       
       if (data.data && data.data.products) {
@@ -153,8 +153,8 @@ const openSubCategoryModal = (subCategory = null) => {
     if (isSubCategory) {
       // Handle subkategori
       url = currentSubCategory 
-        ? `http://152.42.244.64:8080/product-sub-category/update/${currentSubCategory.id}`
-        : 'http://152.42.244.64:8080/product-sub-category/save';
+        ? `http://159.223.91.29:8080/product-sub-category/update/${currentSubCategory.id}`
+        : 'http://159.223.91.29:8080/product-sub-category/save';
       
       body = JSON.stringify({ 
         name: categoryName,
@@ -163,8 +163,8 @@ const openSubCategoryModal = (subCategory = null) => {
     } else {
       // Handle kategori utama
       url = currentCategory 
-        ? `http://152.42.244.64:8080/product-category/update/${currentCategory.id}`
-        : 'http://152.42.244.64:8080/product-category/save';
+        ? `http://159.223.91.29:8080/product-category/update/${currentCategory.id}`
+        : 'http://159.223.91.29:8080/product-category/save';
       
       body = JSON.stringify({ name: categoryName });
     }
@@ -202,8 +202,8 @@ const openSubCategoryModal = (subCategory = null) => {
       );
       
       const url = isSubcategory
-        ? `http://152.42.244.64:8080/product-sub-category/delete/${id}`
-        : `http://152.42.244.64:8080/product-category/${id}`;
+        ? `http://159.223.91.29:8080/product-sub-category/delete/${id}`
+        : `http://159.223.91.29:8080/product-category/${id}`;
       
       const res = await fetch(url, {
         method: 'DELETE',
@@ -222,7 +222,7 @@ const openSubCategoryModal = (subCategory = null) => {
     if (!window.confirm('Apakah Anda yakin ingin menghapus produk ini?')) return;
     
     try {
-      const res = await fetch(`http://152.42.244.64:8080/product/delete/${id}`, {
+      const res = await fetch(`http://159.223.91.29:8080/product/delete/${id}`, {
         method: 'DELETE',
       });
       
@@ -456,7 +456,7 @@ const openSubCategoryModal = (subCategory = null) => {
                                 <div className="flex items-center">
                                   {product.productImages?.[0]?.urlImage && (
                                     <div className="flex-shrink-0 h-20 w-20">
-                                      <img className="h-20 w-20 rounded-md object-cover" src={`http://152.42.244.64:8080${product.productImages?.[0]?.urlImage}`} alt={product.name} />
+                                      <img className="h-20 w-20 rounded-md object-cover" src={`http://159.223.91.29:8080${product.productImages?.[0]?.urlImage}`} alt={product.name} />
                                     </div>
                                   )}
                                   <div className="ml-4">
@@ -528,7 +528,7 @@ const openSubCategoryModal = (subCategory = null) => {
                                       {product.productImages?.map((img, idx) => (
                                         <img 
                                           key={idx} 
-                                          src={`http://152.42.244.64:8080${img.urlImage}`} 
+                                          src={`http://159.223.91.29:8080${img.urlImage}`} 
                                           alt={`Produk ${idx+1}`} 
                                           className="h-20 w-20 object-cover rounded-md border"
                                         />
