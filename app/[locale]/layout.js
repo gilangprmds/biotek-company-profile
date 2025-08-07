@@ -27,6 +27,9 @@ const geistMono = localFont({
 export const metadata = {
   title: "Biotek Inti Korporindo",
   description: "The best orthopedic implant distributor company",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default async function LocaleLayout({ children, params: { locale } }) {
