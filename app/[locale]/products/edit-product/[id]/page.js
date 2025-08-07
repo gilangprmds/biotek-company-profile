@@ -52,12 +52,12 @@ export default function EditProduct() {
     const fetchData = async () => {
       try {
         // Fetch categories
-        const catResponse = await fetch('http://152.42.244.64:8080/product-category');
+        const catResponse = await fetch('http://159.223.91.29:8080/product-category');
         const catData = await catResponse.json();
         setCategories(catData.data);
 
         // Fetch product data
-        const prodResponse = await fetch(`http://152.42.244.64:8080/product/${id}`);
+        const prodResponse = await fetch(`http://159.223.91.29:8080/product/${id}`);
         const prodData = await prodResponse.json();
         
         if (prodData.data) {
@@ -210,7 +210,7 @@ export default function EditProduct() {
       let imageUrl;
       if (image.type === 'existing') {
         // Ambil gambar melalui fetch untuk menghindari masalah CORS
-        const response = await fetch(`http://152.42.244.64:8080${image.url}`);
+        const response = await fetch(`http://159.223.91.29:8080${image.url}`);
         const blob = await response.blob();
         const newBlobUrl = URL.createObjectURL(blob);
         setBlobUrl(newBlobUrl);
@@ -388,7 +388,7 @@ export default function EditProduct() {
             });
 
       // Kirim ke API backend
-      const response = await fetch(`http://152.42.244.64:8080/product/update/${id}`, {
+      const response = await fetch(`http://159.223.91.29:8080/product/update/${id}`, {
         method: 'PUT',
         body: formData,
       });
@@ -506,7 +506,7 @@ export default function EditProduct() {
                           <div className="relative aspect-square">
                             <img 
                               src={preview.type === 'existing' 
-                                ? `http://152.42.244.64:8080${preview.url}` 
+                                ? `http://159.223.91.29:8080${preview.url}` 
                                 : preview.url}
                               alt={`Preview ${index}`} 
                               className="w-full h-full object-cover rounded-lg border"

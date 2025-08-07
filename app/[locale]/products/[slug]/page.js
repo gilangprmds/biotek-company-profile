@@ -17,7 +17,7 @@ export default function ProductDetailPage() {
   useEffect(() => {
     async function fetchProductDetail() {
       try {
-        const res = await fetch(`http://152.42.244.64:8080/product/find-by/${slug}`);
+        const res = await fetch(`http://159.223.91.29:8080/product/find-by/${slug}`);
         const data = await res.json();
         setProduct(data.data);
       } catch (err) {
@@ -55,7 +55,7 @@ export default function ProductDetailPage() {
 
 // export async function generateStaticParams() {
 //   // Ambil data dari API backend berdasarkan slug
-//   const res = await fetch(`http://152.42.244.64:8080/product/${id}`, {
+//   const res = await fetch(`http://159.223.91.29:8080/product/${id}`, {
 //     cache: 'no-store',
 //   });
 
