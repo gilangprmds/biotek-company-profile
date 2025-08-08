@@ -5,7 +5,7 @@ import Breadcrumb from '../Breadcrumb';
 
 
 export default function ProductDetail({ product }) {
-  const imageBaseUrl = 'http://159.223.91.29:8080'; // Ganti sesuai backend kamu
+  const imageBaseUrl = 'https://biotek.co.id/api'; // Ganti sesuai backend kamu
   const [activeImage, setActiveImage] = useState(product.productImages?.[0]?.urlImage);
   const [isModalOpen, setIsModalOpen] = useState(false);
   if (!product) return notFound();

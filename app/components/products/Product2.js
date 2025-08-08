@@ -43,7 +43,7 @@ export default function Product2() {
 
   // Fetch kategori
   useEffect(() => {
-    fetch('http://159.223.91.29:8080/product-category')
+    fetch('https://biotek.co.id/api/product-category')
       .then(res => res.json())
       .then(data => {
         if (data.data) {
@@ -63,7 +63,7 @@ export default function Product2() {
     params.append("page", currentPage - 1);
     params.append("size", productsPerPage);
 
-    fetch(`http://159.223.91.29:8080/product?${params.toString()}`)
+    fetch(`https://biotek.co.id/api/product?${params.toString()}`)
       .then(res => res.json())
       .then(data => {
         setProducts(data.data ? data.data.products : []);
@@ -217,7 +217,7 @@ export default function Product2() {
                     <div key={product.slug} className="group bg-white rounded-xl p-6 shadow hover:shadow-lg transition relative overflow-hidden" data-aos="zoom-in">
                       <div className="relative h-60 rounded-lg overflow-hidden">
                         <Image 
-                          src={`http://159.223.91.29:8080${product.productImages?.[0]?.urlImage}` || "/default.jpg"} 
+                          src={`https://biotek.co.id/api${product.productImages?.[0]?.urlImage}` || "/default.jpg"} 
                           alt={product.name} 
                           fill 
                           className="object-cover transition-transform duration-300 group-hover:scale-105" 
@@ -312,7 +312,7 @@ export default function Product2() {
 //   const productsPerPage = 6;
 
 //   useEffect(() => {
-//     fetch('http://159.223.91.29:8080/product-category')
+//     fetch('https://biotek.co.id/api/product-category')
 //       .then(res => res.json())
 //       .then(data => {
 //         const catList = data.data ? data.data.map(c => c.name) : [];
@@ -328,7 +328,7 @@ export default function Product2() {
 //     params.append("page", currentPage - 1);
 //     params.append("size", productsPerPage);
 
-//     fetch(`http://159.223.91.29:8080/product?${params.toString()}`)
+//     fetch(`https://biotek.co.id/api/product?${params.toString()}`)
 //       .then(res => res.json())
 //       .then(data => {
 //         setProducts(data.data ? data.data.products : []);
@@ -411,7 +411,7 @@ export default function Product2() {
 //                   {products.map(product => (
 //                     <div key={product.slug} className="group bg-white rounded-xl p-6 shadow hover:shadow-lg transition relative overflow-hidden">
 //                       <div className="relative h-60 rounded-lg overflow-hidden">
-//                         <Image src={`http://159.223.91.29:8080${product.productImages?.[0]?.urlImage}` || "/default.jpg"} alt={product.name} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+//                         <Image src={`https://biotek.co.id/api${product.productImages?.[0]?.urlImage}` || "/default.jpg"} alt={product.name} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
 //                       </div>
 //                       <div className="pt-4 min-h-[80px] place-content-center">
 //                         <p className="text-sm text-center font-medium text-gray-800 mb-2">{product.name}</p>

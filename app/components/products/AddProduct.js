@@ -14,7 +14,7 @@ export default function AddProduct() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://159.223.91.29:8080/product-category');
+        const response = await fetch('https://biotek.co.id/api/product-category');
         const data = await response.json();
         setCategories(data.data);
       } catch (error) {
@@ -251,7 +251,7 @@ const openImageEditor = (index) => {
       });
       
       // Kirim ke API backend
-      const response = await fetch('http://159.223.91.29:8080/product/save', {
+      const response = await fetch('https://biotek.co.id/api/product/save', {
         method: 'POST',
         body: formData,
       });
