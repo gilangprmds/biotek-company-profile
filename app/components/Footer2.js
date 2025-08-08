@@ -34,13 +34,13 @@ export default function Footer2(){
 					<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "All Product" } }}>{t('product.all-products')}</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Hip Stem" } }}>Hip Stem</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Arthoplasty" } }}>Arthoplasty</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Knee Stem" } }}>Knee Stem</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Trauma" } }}>Trauma</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Others" } }}>{t('product.others')}</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Sport Medicine" } }}>Sport Medicine</Link>
 					</li>
 				</ul>
 			</div>

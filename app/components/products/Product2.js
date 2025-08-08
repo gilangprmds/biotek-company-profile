@@ -10,11 +10,13 @@ import { useTranslations } from 'next-intl';
 export default function Product2() {
   const t = useTranslations('Products');
   const searchParams = useSearchParams();
+
+  // Ambil query dari URL
   const initialSearch = searchParams.get('search') || "";
   const categoryQuery = searchParams.get("category") || "All Product";
   const subCategoryQuery = searchParams.get("subCategory") || "";
-  const [expandedCategories, setExpandedCategories] = useState({});
 
+  const [expandedCategories, setExpandedCategories] = useState({});
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(categoryQuery);
   const [selectedSubCategory, setSelectedSubCategory] = useState(subCategoryQuery);
@@ -27,6 +29,19 @@ export default function Product2() {
 
   const productsPerPage = 9;
 
+  // --- 🔹 Tambahan: Sinkronkan state kategori & subkategori setiap kali URL berubah ---
+  useEffect(() => {
+    const newCategory = searchParams.get("category") || "All Product";
+    const newSubCategory = searchParams.get("subCategory") || "";
+    const newSearch = searchParams.get("search") || "";
+
+    setSelectedCategory(newCategory);
+    setSelectedSubCategory(newSubCategory);
+    setSearchQuery(newSearch);
+    setCurrentPage(1); // reset halaman ke 1 setiap ganti kategori
+  }, [searchParams]);
+
+  // Fetch kategori
   useEffect(() => {
     fetch('http://159.223.91.29:8080/product-category')
       .then(res => res.json())
@@ -39,6 +54,7 @@ export default function Product2() {
       .catch(err => console.error("Failed to fetch categories", err));
   }, []);
 
+  // Fetch produk setiap filter berubah
   useEffect(() => {
     const params = new URLSearchParams();
     if (searchQuery) params.append("name", searchQuery);
@@ -52,7 +68,7 @@ export default function Product2() {
       .then(data => {
         setProducts(data.data ? data.data.products : []);
         setTotalPages(data.data ? data.data.totalPages : 1);
-        setTotalProducts(data.data.totalItems);
+        setTotalProducts(data.data?.totalItems || 0);
       })
       .catch(err => console.error("Failed to fetch products", err));
   }, [searchQuery, selectedCategory, selectedSubCategory, currentPage]);
@@ -68,57 +84,50 @@ export default function Product2() {
     setSelectedCategory(categoryName);
     setSelectedSubCategory("");
     setCurrentPage(1);
-    
-    // Tutup semua kategori yang diperluas kecuali yang dipilih
     setExpandedCategories(prev => {
       const newState = {};
-      newState[categoryName] = prev[categoryName]; // Pertahankan state kategori yang dipilih
+      newState[categoryName] = prev[categoryName];
       return newState;
     });
   };
 
   const handleCategoryClick = (categoryName) => {
     handleCategoryChange(categoryName);
-    
-    // Periksa apakah kategori memiliki subkategori
     const category = categories.find(cat => cat.name === categoryName);
     if (category?.subCategories?.length > 0) {
       toggleCategory(categoryName);
     }
   };
 
-  // Fungsi untuk menangani pemilihan subkategori
   const handleSubCategorySelect = (categoryName, subCatName) => {
-    // Pastikan kategori yang sesuai dipilih
     setSelectedCategory(categoryName);
     setSelectedSubCategory(subCatName);
     setCurrentPage(1);
   };
-   
+
   return (
     <div>
-      <section className="bg-gray-100 pb-20 pt-32 text-center " 
-      style={{
-        backgroundImage: "url('/img/products/banner-product3.png')", // replace with your image path
-        backgroundSize: "cover", // This will make the image cover the entire section
-         backgroundRepeat: "no-repeat", // This will prevent the image from repeating
-         backgroundPosition: "center", // This will center the image
-      }}>
+      {/* Banner */}
+      <section className="bg-gray-100 pb-20 pt-32 text-center" 
+        style={{
+          backgroundImage: "url('/img/products/banner-product3.png')",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}>
         <h1 className="text-4xl font-bold text-gray-800 mb-4" data-aos="fade-up">{t('banner.title')}</h1>
-        {/* <p className="text-gray-600 text-lg" data-aos="fade-up">{t('banner.subtitle')}</p> */}
       </section>
 
       <div className="max-w-7xl mx-auto p-4">
         <Breadcrumb />
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Sidebar Kategori - Desain Baru */}
+          {/* Sidebar Kategori */}
           <aside className="md:col-span-1">
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="border-b border-gray-200 pb-4 mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">{t('categories')}</h3>
               </div>
-              
               <div className="space-y-1">
                 {categories.map(category => (
                   <div key={category.name} className="mb-1">
@@ -128,8 +137,7 @@ export default function Product2() {
                         selectedCategory === category.name
                           ? "bg-blue-50 text-blue-700 font-medium"
                           : "text-gray-700 hover:bg-gray-50"
-                      }`}
-                    >
+                      }`}>
                       <span>{category.name}</span>
                       {category.subCategories?.length > 0 && (
                         <svg 
@@ -138,8 +146,7 @@ export default function Product2() {
                           }`}
                           fill="none" 
                           stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                        >
+                          viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       )}
@@ -155,8 +162,7 @@ export default function Product2() {
                               selectedSubCategory === subCat.name && selectedCategory === category.name
                                 ? "text-blue-600 font-medium"
                                 : "text-gray-600 hover:text-gray-900"
-                            }`}
-                          >
+                            }`}>
                             <span className="w-1.5 h-1.5 rounded-full bg-gray-300 mr-2"></span>
                             {subCat.name}
                           </button>
@@ -169,7 +175,7 @@ export default function Product2() {
             </div>
           </aside>
 
-          {/* Konten Utama */}
+          {/* Konten Produk */}
           <section className="md:col-span-3">
             <div className="flex justify-between items-center w-full gap-4 flex-wrap mb-4">
               <div className="w-full md:w-auto mx-4">
@@ -220,14 +226,6 @@ export default function Product2() {
                       <div className="pt-4 min-h-[80px] place-content-center">
                         <p className="text-base text-center font-semibold text-gray-800 mb-2">{product.name}</p>
                       </div>
-                      {/* <Link href={`/products/${product.slug}`}>
-                        <div className="inline-flex items-center justify-center w-full px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-800 transition-colors duration-200">
-                          View Details
-                          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </div>
-                      </Link> */}
                     </div>
                   ))}
                 </div>
@@ -242,6 +240,7 @@ export default function Product2() {
               </div>
             )}
 
+            {/* Pagination */}
             <div className="flex justify-center items-center gap-2 mt-12 mb-2">
               <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}
                 className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border rounded-lg hover:bg-gray-100 disabled:opacity-50">
@@ -264,13 +263,14 @@ export default function Product2() {
         </div>
       </div>
 
+      {/* Footer CTA */}
       <section className="bg-gradient-to-r from-blue-600 to-indigo-600 py-16 text-center mt-20"
-      style={{
-        backgroundImage: "url('/img/products/footer-bg3.png')", // replace with your image path
-        backgroundSize: "cover", // This will make the image cover the entire section
-         backgroundRepeat: "no-repeat", // This will prevent the image from repeating
-         backgroundPosition: "center", // This will center the image
-      }}>
+        style={{
+          backgroundImage: "url('/img/products/footer-bg3.png')",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}>
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{t('footer.title')}</h2>
           <p className="text-white mb-8">{t('footer.subtitle')}</p>
