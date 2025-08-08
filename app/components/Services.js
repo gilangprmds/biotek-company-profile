@@ -12,10 +12,9 @@ export default function Services() {
             <h6 className="mb-2 block text-lg font-semibold text-primary">
               {t('title1')}
             </h6>
-            <h2 className="mb-6">{t('title1')}</h2>
+            <h2 className="mb-6">{t('title2')}</h2>
             <p>
-              There are many variations of passages of Lorem Ipsum available but
-              the majority have suffered alteration in some form.
+              {t('description')}
             </p>
           </div>
 

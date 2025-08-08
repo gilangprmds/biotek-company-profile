@@ -25,7 +25,7 @@ export default function Product2() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
 
-  const productsPerPage = 6;
+  const productsPerPage = 9;
 
   useEffect(() => {
     fetch('http://159.223.91.29:8080/product-category')
@@ -97,7 +97,13 @@ export default function Product2() {
    
   return (
     <div>
-      <section className="bg-gray-100 pb-20 pt-32 text-center">
+      <section className="bg-gray-100 pb-20 pt-32 text-center " 
+      style={{
+        backgroundImage: "url('/img/products/banner-product3.png')", // replace with your image path
+        backgroundSize: "cover", // This will make the image cover the entire section
+         backgroundRepeat: "no-repeat", // This will prevent the image from repeating
+         backgroundPosition: "center", // This will center the image
+      }}>
         <h1 className="text-4xl font-bold text-gray-800 mb-4" data-aos="fade-up">{t('banner.title')}</h1>
         {/* <p className="text-gray-600 text-lg" data-aos="fade-up">{t('banner.subtitle')}</p> */}
       </section>
@@ -258,10 +264,16 @@ export default function Product2() {
         </div>
       </div>
 
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-600 py-16 text-center mt-20">
+      <section className="bg-gradient-to-r from-blue-600 to-indigo-600 py-16 text-center mt-20"
+      style={{
+        backgroundImage: "url('/img/products/footer-bg3.png')", // replace with your image path
+        backgroundSize: "cover", // This will make the image cover the entire section
+         backgroundRepeat: "no-repeat", // This will prevent the image from repeating
+         backgroundPosition: "center", // This will center the image
+      }}>
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{t('footer.title')}</h2>
-          <p className="text-blue-50 mb-8">{t('footer.subtitle')}</p>
+          <p className="text-white mb-8">{t('footer.subtitle')}</p>
           <a href="/#contact"
             className="inline-flex items-center px-8 py-3 text-lg font-medium text-blue-600 bg-white rounded-lg hover:bg-gray-100 transition-colors duration-200">
             {t('footer.consult-now')}
