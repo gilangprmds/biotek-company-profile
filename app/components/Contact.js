@@ -30,7 +30,7 @@ const handleSubmit = async (e) => {
   const message = e.target.message.value;
 
   try {
-    const res = await fetch('http://localhost:8080/contact/send/mail', {
+    const res = await fetch('https://biotek.co.id/api/contact/send/mail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
