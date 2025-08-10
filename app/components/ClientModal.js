@@ -38,10 +38,6 @@ export default function ClientModal({ client, onClose }) {
                 <div className="flex-shrink-0">
                   <img src={client.image} alt={client.title} className="w-40 h-40 object-contain" />
                 </div>
-                <div className="text-gray-700">
-                  <p>{client.description || "No description available."}</p>
-                  <img src="/assets/images/building-placeholder.jpg" alt="Building" className="mt-4 rounded" />
-                </div>
               </div>
             </div>
           </Transition.Child>
