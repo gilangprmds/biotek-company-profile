@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl';
 export default function Footer2(){
 	const t = useTranslations('Footer');
     return(
-        <footer className="px-4 divide-y bg-gray-800 dark:bg-gray-100 text-gray-100 dark:text-gray-800">
-	<div className="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
+        <footer className="px-16 divide-y bg-gray-800 dark:bg-gray-100 text-gray-100 dark:text-gray-800">
+	<div className=" flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
     <div className="col-12 order-first lg:col-4">
               <div className="w-full">
               <div className="w-60 lg:w-56 max-w-full ">
@@ -21,7 +21,7 @@ export default function Footer2(){
             </Link>
           </div>
   
-                <p className="mb-8 max-w-full text-body-dark-11">
+                <p className="mb-8 max-w-full lg:w-5/6 text-body-dark-11">
                 {t('caption')}
                 </p>
               </div>
@@ -34,13 +34,13 @@ export default function Footer2(){
 					<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "All Product" } }}>{t('product.all-products')}</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Arthoplasty" } }}>Arthoplasty</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Arthroplasty" } }}>Arthroplasty</Link>
 					</li>
 					<li>
 						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Trauma" } }}>Trauma</Link>
 					</li>
 					<li>
-						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Sport Medicine" } }}>Sport Medicine</Link>
+						<Link className="text-body-dark-11" rel="noopener noreferrer" href={{ pathname: "/products", query: { category: "Sports Medicine" } }}>Sports Medicine</Link>
 					</li>
 				</ul>
 			</div>
@@ -53,9 +53,9 @@ export default function Footer2(){
 					<li>
 						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#services">{t('company.services')}</Link>
 					</li>
-					<li>
+					{/* <li>
 						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#testimonials">{t('company.testimonial')}</Link>
-					</li>
+					</li> */}
 					<li>
 						<Link className="text-body-dark-11" rel="noopener noreferrer" href="/#contact">{t('company.contact-us')}</Link>
 					</li>
@@ -97,7 +97,14 @@ export default function Footer2(){
 			</div>
 		</div>
 	</div>
+	<div className="lg:flex md:flex ">
 	<div className="py-6 text-sm text-center text-gray-400 dark:text-gray-600">© 2025 Biotek Inti Korporindo. All rights reserved.</div>
+	<div className="flex justify-self-center lg:ml-auto md:ml-auto">
+		<Link href="/privacy-policy" rel="noopener noreferrer"><div className="md:py-6 ml-auto text-sm text-center  text-gray-400 hover:text-blue-600 dark:text-gray-600">Privacy and Policy</div></Link>
+		<div className="md:py-6 px-1 ml-auto text-sm text-center text-gray-400 dark:text-gray-600">|</div>
+		<Link href="/terms-of-use" rel="noopener noreferrer"><div className="md:py-6 pb-6 ml-auto text-sm text-center text-gray-400 hover:text-blue-600 dark:text-gray-600">Terms of Use</div></Link>
+	</div>
+	</div>
 </footer>
     );
 }

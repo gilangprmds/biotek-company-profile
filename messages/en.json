@@ -5,9 +5,9 @@
     "profile": {
       "label": "Our Profile",
       "content": [
-        "We are the best orthopedic implant distributor company in Indonesia that has collaborated with more than 100 hospitals throughout Indonesia.",
+        "We distribute orthopaedic implants and sports-medicine solutions across Indonesia, supporting surgeons in more than 40 hospitals. All products carry valid AKL registrations and are backed by trained clinical support.",
         "Our tools already have a distribution permit certificate from the authorized agency, so they are legal to distribute. Our sales data has reached above 5000 pcs, which makes our company reliable to complete global demand.",
-        "These orthopedic implants can prevent and diagnose and relieve disease, treat the sick, restore health to humans, and/or shape structures body function."
+        "Our orthopaedic portfolio helps surgeons treat trauma and degenerative conditions, supporting faster recovery and improved function."
       ]
     },
     "vision": {
@@ -44,17 +44,21 @@
     "title2":"Our Best Services",
     "description":"Delivering high-quality orthopedic implants and medical solutions, designed with innovation and expertise to support faster recovery and long-term performance.",
     "services":{
-      "arthoplasty":{
-        "title":"Arthoplasty",
-        "description":"Arthroplasty is a surgical procedure to repair or replace a damaged joint with a prosthesis (artificial joint) to reduce pain and improve joint function."
+      "arthroplasty":{
+        "title":"Arthroplasty",
+        "description":"Joint replacement systems and instruments for hip and knee."
       },
       "trauma":{
         "title":"Trauma",
-        "description":"Trauma surgery is a surgical specialty focused on treating severe injuries resulting from accidents, falls, violence, or other traumatic events."
+        "description":"Plates, screws, nails with complete size matrices and instrument sets."
       },
-      "sport-medicine":{
-        "title":"Sport Medicine",
-        "description":"is a branch of medicine focused on physical fitness, injury prevention, and the treatment and rehabilitation of injuries related to sports and exercise."
+      "sports-medicine":{
+        "title":"Sports Medicine",
+        "description":"Suture anchors, soft-tissue fixation, and arthroscopy accessories."
+      },
+      "pain-management":{
+        "title":"Pain Management",
+        "description":"Ambulatory infusion pumps and disposables for postoperative analgesia."
       }
     }
   },
@@ -73,7 +77,10 @@
     "form":{
       "name":"Name",
       "email":"Email",
-      "message":"Message"
+      "message":"Message",
+      "sending":"Sending",
+      "submit":"Submit",
+      "submitMessage":"By submitting, you agree to be contacted and our Privacy Policy."
     }
   },
   "Footer":{
@@ -112,6 +119,147 @@
       "title":"Need Professional Guidance?",
       "subtitle":"Our orthopedic specialists are ready to assist you in selecting the perfect solution",
       "consult-now":"Consult Now"
+    }
+  },
+  "TermsOfUse": {
+    "title": "Terms of Use",
+    "subtitle": "The legal terms and conditions governing your use of our website",
+    "lastUpdated": "Last updated",
+    "welcomeMessage": "Welcome to Biotek Inti Korporindo's Terms of Use. These terms govern your access to and use of our website. By accessing or using our website, you agree to be bound by these Terms of Use and our Privacy Policy.",
+    "disclaimer": "Please read these terms carefully before using our website. If you do not agree with any part of these terms, you must not use our website.",
+    
+    "acceptance": {
+      "title": "Acceptance of Terms",
+      "content": "By accessing and using the Biotek Inti Korporindo website, you accept and agree to be bound by these Terms of Use. If you do not agree to these terms, please do not use the Site. We reserve the right to modify these terms at any time."
+    },
+    
+    "ipRights": {
+      "title": "Intellectual Property Rights",
+      "content": "Unless otherwise stated, Biotek Inti Korporindo and/or its licensors own all intellectual property rights in the Site and its content. All such rights are reserved. You may view and print pages for personal use only, subject to restrictions set in these terms.",
+      "prohibitionsTitle": "You must not:",
+      "prohibitions": {
+        "1": "Republish material from this Site",
+        "2": "Sell, rent, or sub-license material from the Site",
+        "3": "Reproduce, duplicate, or copy material for commercial purposes",
+        "4": "Redistribute content from this Site (unless content is specifically made for redistribution)"
+      }
+    },
+    
+    "userResponsibilities": {
+      "title": "User Responsibilities",
+      "intro": "When using our Site, you agree:",
+      "list": {
+        "1": "Not to use the Site in any way that causes damage or impairs accessibility",
+        "2": "Not to engage in any data mining, data harvesting, or similar activities",
+        "3": "Not to use the Site for any unlawful purpose or in violation of any laws",
+        "4": "Not to submit false or misleading information through any forms"
+      }
+    },
+    
+    "liability": {
+      "title": "Limitations of Liability",
+      "content": "Biotek Inti Korporindo will not be liable for any direct, indirect, incidental, consequential, or exemplary damages resulting from:",
+      "list": {
+        "1": "The use or inability to use the Site",
+        "2": "Unauthorized access to or alteration of your transmissions or data",
+        "3": "Statements or conduct of any third party on the Site",
+        "4": "Any other matter relating to the Site"
+      }
+    },
+    
+    "externalLinks": {
+      "title": "External Links",
+      "content": "The Site may contain links to third-party websites. These links are provided for your convenience only. Biotek Inti Korporindo has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third-party websites."
+    },
+    
+    "availability": {
+      "title": "Site Availability",
+      "content": "We strive to ensure the Site is available 24/7, but we cannot guarantee uninterrupted access. We may suspend, withdraw, or restrict availability for business and operational reasons. We will not be liable if the Site is unavailable at any time."
+    },
+    
+    "governingLaw": {
+      "title": "Governing Law",
+      "content": "These Terms of Use shall be governed by and construed in accordance with the laws of Indonesia, without regard to its conflict of law provisions."
+    },
+    
+    "contact": {
+      "title": "Contact Information",
+      "intro": "For any questions about these Terms of Use, please contact us:",
+      "email": "By email",
+      "phone": "By phone"
+    }
+  },
+   "PrivacyPolicy": {
+    "title": "Privacy Policy",
+    "subtitle": "Our commitment to protecting your personal information and ensuring your privacy",
+    "lastUpdated": "Last updated",
+    "intro": "At Biotek Inti Korporindo, we are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy outlines how we collect, use, and protect the information you provide when using our website.",
+    "policyScope": "This policy applies to all information collected through our website and any related services, sales, marketing, or events.",
+    
+    "informationCollection": {
+      "title": "Information We Collect",
+      "intro": "We may collect information about you in a variety of ways:",
+      "personalData": {
+        "title": "Personal Data",
+        "description": "Personally identifiable information such as your name, email address, and phone number that you voluntarily give to us when you contact us through our website."
+      },
+      "derivativeData": {
+        "title": "Derivative Data",
+        "description": "Information our servers automatically collect when you access the site, such as your IP address, browser type, operating system, access times, and pages viewed."
+      }
+    },
+    
+    "informationUse": {
+      "title": "How We Use Your Information",
+      "intro": "We may use the information we collect about you for various purposes, including to:",
+      "purposes": {
+        "1": "Provide, operate, and maintain our website",
+        "2": "Improve, personalize, and expand our website",
+        "3": "Understand and analyze how you use our website",
+        "4": "Respond to your inquiries and provide customer service",
+        "5": "Send you marketing and promotional communications (if you've opted in)"
+      }
+    },
+    
+    "informationSharing": {
+      "title": "Information Sharing and Disclosure",
+      "intro": "We do not sell, trade, or rent your personal information to third parties. We may share your information in the following situations:",
+      "cases": {
+        "1": {
+          "title": "Service Providers",
+          "description": "We may share information with third-party vendors who perform services on our behalf."
+        },
+        "2": {
+          "title": "Business Transfers",
+          "description": "In connection with any merger, sale of company assets, or acquisition."
+        },
+        "3": {
+          "title": "Legal Requirements",
+          "description": "When required by law or to respond to legal process."
+        }
+      }
+    },
+    
+    "dataSecurity": {
+      "title": "Data Security",
+      "content": "We use administrative, technical, and physical security measures to protect your personal information. However, no internet transmission or electronic storage is 100% secure, so we cannot guarantee absolute security."
+    },
+    
+    "thirdPartyWebsites": {
+      "title": "Third-Party Websites",
+      "content": "Our website may contain links to third-party websites. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party sites or services."
+    },
+    
+    "policyChanges": {
+      "title": "Changes to This Policy",
+      "content": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the \"Last updated\" date at the top of this policy."
+    },
+    
+    "contact": {
+      "title": "Contact Us",
+      "intro": "If you have any questions about this Privacy Policy, please contact us:",
+      "email": "By email",
+      "phone": "By phone"
     }
   }
 }

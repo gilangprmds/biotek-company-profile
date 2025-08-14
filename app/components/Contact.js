@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
         <div className="mt-4">
           <h2 className="font-semibold text-xs text-gray-900 tracking-widest">EMAIL</h2>
           <a href="mailto:biotek.inti.korporindo@gmail.com" className="text-indigo-500 text-sm leading-relaxed">
-            biotek.inti.korporindo@gmail.com
+            cs@biotek.co.id
           </a>
         </div>
         <div className="mt-4">
@@ -132,13 +132,13 @@ const handleSubmit = async (e) => {
           className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
         ></textarea>
       </div>
-
+              <label htmlFor="message" className="leading-7 text-xs pb-1 italic text-gray-600">{t('form.submitMessage')}</label>
       <button 
       type='submit'
       disabled={loading}
       className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" 
       data-aos="fade-up">
-      {loading ? 'Sending...' : 'Submit'}
+      {loading ? t('form.sending') : t('form.submit')}
       </button>
      {feedback.message && (
           <p className={feedback.type === 'success' ? 'text-green-600' : 'text-red-600'}>

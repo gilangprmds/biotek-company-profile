@@ -5,9 +5,9 @@
     "profile": {
       "label": "Profil Kami",
       "content": [
-        "Kami adalah perusahaan distributor implan ortopedi terbaik di Indonesia yang telah berkolaborasi dengan lebih dari 100 rumah sakit di seluruh Indonesia.",
+        "Kami mendistribusikan implan ortopedi dan solusi kedokteran olahraga di seluruh Indonesia, mendukung ahli bedah di lebih dari 40 rumah sakit. Semua produk memiliki registrasi AKL yang valid dan didukung oleh dukungan klinis terlatih.",
         "Alat kami sudah memiliki sertifikat izin distribusi dari agensi berwenang, sehingga legal didistribusikan. Data penjualan kami telah mencapai di atas 5000 pcs, yang membuat perusahaan kami andal untuk memenuhi permintaan global.",
-        "Implan ortopedi ini dapat mencegah dan mendiagnosis serta meredakan penyakit, mengobati yang sakit, mengembalikan kesehatan pada manusia, dan/atau membentuk fungsi struktur tubuh."
+        "Portofolio ortopedi kami membantu ahli bedah menangani trauma dan kondisi degeneratif, mendukung pemulihan yang lebih cepat dan peningkatan fungsi."
       ]
     },
     "vision": {
@@ -44,17 +44,21 @@
     "title2":"Layanan Terbaik Kami",
     "description":"Memberikan implan ortopedi dan solusi medis berkualitas tinggi, dirancang dengan inovasi dan keahlian untuk mendukung pemulihan lebih cepat dan kinerja jangka panjang.",
     "services":{
-      "arthoplasty":{
-        "title":"Arthoplasty",
-        "description":"Artroplasti adalah prosedur pembedahan untuk memperbaiki atau mengganti sendi yang rusak dengan prostesis (sendi buatan) untuk mengurangi nyeri dan meningkatkan fungsi sendi."
+      "arthroplasty":{
+        "title":"Arthroplasty",
+        "description":"Sistem dan instrumen penggantian sendi untuk pinggul dan lutut."
       },
       "trauma":{
         "title":"Trauma",
-        "description":"Bedah trauma adalah spesialisasi bedah yang berfokus pada pengobatan cedera parah akibat kecelakaan, jatuh, kekerasan, atau peristiwa traumatis lainnya."
+        "description":"Pelat, sekrup, paku dengan matriks ukuran lengkap dan set instrumen."
       },
-      "sport-medicine":{
-        "title":"Sport Medicine",
-        "description":"adalah cabang kedokteran yang berfokus pada kebugaran jasmani, pencegahan cedera, serta pengobatan dan rehabilitasi cedera yang berkaitan dengan olahraga dan olah raga."
+      "sports-medicine":{
+        "title":"Sports Medicine",
+        "description":"Jangkar jahitan, fiksasi jaringan lunak, dan aksesori artroskopi."
+      },
+      "pain-management":{
+        "title":"Pain Management",
+        "description":"Pompa infus rawat jalan dan sekali pakai untuk analgesia pasca operasi."
       }
     }
   },
@@ -73,7 +77,10 @@
     "form":{
       "name":"Nama",
       "email":"Email",
-      "message":"Pesan"
+      "message":"Pesan",
+      "sending":"Mengirim",
+      "submit":"Kirim",
+      "submitMessage":"Dengan mengirimkan ini, Anda setuju untuk dihubungi dan Kebijakan Privasi kami."
     }
   },
   "Footer":{
@@ -112,6 +119,147 @@
       "title":"Butuh Bimbingan Profesional?",
       "subtitle":"Spesialis ortopedi kami siap membantu Anda dalam memilih solusi yang tepat",
       "consult-now":"Konsultasi Sekarang"
+    }
+  },
+   "TermsOfUse": {
+    "title": "Syarat Penggunaan",
+    "subtitle": "Ketentuan hukum yang mengatur penggunaan website kami",
+    "lastUpdated": "Terakhir diperbarui",
+    "welcomeMessage": "Selamat datang di Syarat Penggunaan Biotek Inti Korporindo. Ketentuan ini mengatur akses dan penggunaan Anda terhadap website kami. Dengan mengakses atau menggunakan website kami, Anda setuju untuk terikat oleh Syarat Penggunaan ini dan Kebijakan Privasi kami.",
+    "disclaimer": "Harap baca ketentuan ini dengan seksama sebelum menggunakan website kami. Jika Anda tidak setuju dengan bagian mana pun dari ketentuan ini, Anda tidak boleh menggunakan website kami.",
+    
+    "acceptance": {
+      "title": "Penerimaan Syarat",
+      "content": "Dengan mengakses dan menggunakan website Biotek Inti Korporindo, Anda menerima dan setuju untuk terikat oleh Syarat Penggunaan ini. Jika Anda tidak setuju dengan ketentuan ini, harap jangan gunakan Situs. Kami berhak memodifikasi ketentuan ini kapan saja."
+    },
+    
+    "ipRights": {
+      "title": "Hak Kekayaan Intelektual",
+      "content": "Kecuali dinyatakan lain, Biotek Inti Korporindo dan/atau pemberi lisensinya memiliki semua hak kekayaan intelektual dalam Situs dan isinya. Semua hak tersebut dilindungi. Anda dapat melihat dan mencetak halaman hanya untuk penggunaan pribadi, tunduk pada pembatasan yang ditetapkan dalam ketentuan ini.",
+      "prohibitionsTitle": "Anda tidak boleh:",
+      "prohibitions": {
+        "1": "Menerbitkan kembali materi dari Situs ini",
+        "2": "Menjual, menyewakan, atau memberikan sub-lisensi materi dari Situs",
+        "3": "Memproduksi ulang, menggandakan, atau menyalin materi untuk tujuan komersial",
+        "4": "Mendistribusikan kembali konten dari Situs ini (kecuali konten secara khusus dibuat untuk didistribusikan kembali)"
+      }
+    },
+    
+    "userResponsibilities": {
+      "title": "Tanggung Jawab Pengguna",
+      "intro": "Saat menggunakan Situs kami, Anda setuju:",
+      "list": {
+        "1": "Tidak menggunakan Situs dengan cara yang menyebabkan kerusakan atau mengganggu aksesibilitas",
+        "2": "Tidak melakukan penambangan data, pengumpulan data, atau aktivitas serupa",
+        "3": "Tidak menggunakan Situs untuk tujuan yang melanggar hukum atau melanggar peraturan apa pun",
+        "4": "Tidak mengirimkan informasi yang salah atau menyesatkan melalui formulir apa pun"
+      }
+    },
+    
+    "liability": {
+      "title": "Pembatasan Tanggung Jawab",
+      "content": "Biotek Inti Korporindo tidak akan bertanggung jawab atas kerusakan langsung, tidak langsung, insidental, konsekuensial, atau contoh yang diakibatkan dari:",
+      "list": {
+        "1": "Penggunaan atau ketidakmampuan menggunakan Situs",
+        "2": "Akses tidak sah atau perubahan terhadap transmisi atau data Anda",
+        "3": "Pernyataan atau tindakan pihak ketiga mana pun di Situs",
+        "4": "Masalah lain apa pun yang terkait dengan Situs"
+      }
+    },
+    
+    "externalLinks": {
+      "title": "Tautan Eksternal",
+      "content": "Situs mungkin berisi tautan ke situs web pihak ketiga. Tautan ini disediakan hanya untuk kenyamanan Anda. Biotek Inti Korporindo tidak memiliki kendali atas, dan tidak bertanggung jawab atas, konten, kebijakan privasi, atau praktik situs web pihak ketiga mana pun."
+    },
+    
+    "availability": {
+      "title": "Ketersediaan Situs",
+      "content": "Kami berusaha memastikan Situs tersedia 24/7, tetapi kami tidak dapat menjamin akses yang tidak terputus. Kami dapat menangguhkan, menarik, atau membatasi ketersediaan untuk alasan bisnis dan operasional. Kami tidak akan bertanggung jawab jika Situs tidak tersedia kapan saja."
+    },
+    
+    "governingLaw": {
+      "title": "Hukum yang Mengatur",
+      "content": "Syarat Penggunaan ini diatur oleh dan ditafsirkan sesuai dengan hukum Indonesia, tanpa memperhatikan ketentuan hukum yang bertentangan."
+    },
+    
+    "contact": {
+      "title": "Informasi Kontak",
+      "intro": "Untuk pertanyaan apa pun tentang Syarat Penggunaan ini, silakan hubungi kami:",
+      "email": "Melalui email",
+      "phone": "Melalui telepon"
+    }
+  },
+   "PrivacyPolicy": {
+    "title": "Kebijakan Privasi",
+    "subtitle": "Komitmen kami dalam melindungi informasi pribadi Anda dan menjamin privasi Anda",
+    "lastUpdated": "Terakhir diperbarui",
+    "intro": "Di Biotek Inti Korporindo, kami berkomitmen untuk melindungi privasi Anda dan memastikan bahwa informasi pribadi Anda ditangani dengan aman dan bertanggung jawab. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi yang Anda berikan saat menggunakan website kami.",
+    "policyScope": "Kebijakan ini berlaku untuk semua informasi yang dikumpulkan melalui website kami dan layanan terkait, penjualan, pemasaran, atau acara apa pun.",
+    
+    "informationCollection": {
+      "title": "Informasi yang Kami Kumpulkan",
+      "intro": "Kami dapat mengumpulkan informasi tentang Anda dengan berbagai cara:",
+      "personalData": {
+        "title": "Data Pribadi",
+        "description": "Informasi yang dapat mengidentifikasi pribadi seperti nama, alamat email, dan nomor telepon yang Anda berikan secara sukarela ketika menghubungi kami melalui website kami."
+      },
+      "derivativeData": {
+        "title": "Data Turunan",
+        "description": "Informasi yang secara otomatis dikumpulkan oleh server kami ketika Anda mengakses situs, seperti alamat IP, jenis browser, sistem operasi, waktu akses, dan halaman yang dilihat."
+      }
+    },
+    
+    "informationUse": {
+      "title": "Bagaimana Kami Menggunakan Informasi Anda",
+      "intro": "Kami dapat menggunakan informasi yang kami kumpulkan tentang Anda untuk berbagai tujuan, termasuk:",
+      "purposes": {
+        "1": "Menyediakan, mengoperasikan, dan memelihara website kami",
+        "2": "Meningkatkan, mempersonalisasi, dan mengembangkan website kami",
+        "3": "Memahami dan menganalisis bagaimana Anda menggunakan website kami",
+        "4": "Menanggapi pertanyaan Anda dan memberikan layanan pelanggan",
+        "5": "Mengirimkan komunikasi pemasaran dan promosi (jika Anda telah memilih untuk menerima)"
+      }
+    },
+    
+    "informationSharing": {
+      "title": "Berbagi dan Pengungkapan Informasi",
+      "intro": "Kami tidak menjual, memperdagangkan, atau menyewakan informasi pribadi Anda kepada pihak ketiga. Kami dapat membagikan informasi Anda dalam situasi berikut:",
+      "cases": {
+        "1": {
+          "title": "Penyedia Layanan",
+          "description": "Kami dapat membagikan informasi dengan vendor pihak ketiga yang memberikan layanan atas nama kami."
+        },
+        "2": {
+          "title": "Transfer Bisnis",
+          "description": "Dalam hubungannya dengan penggabungan, penjualan aset perusahaan, atau akuisisi apa pun."
+        },
+        "3": {
+          "title": "Persyaratan Hukum",
+          "description": "Ketika diwajibkan oleh hukum atau untuk menanggapi proses hukum."
+        }
+      }
+    },
+    
+    "dataSecurity": {
+      "title": "Keamanan Data",
+      "content": "Kami menggunakan langkah-langkah keamanan administratif, teknis, dan fisik untuk melindungi informasi pribadi Anda. Namun, tidak ada transmisi internet atau penyimpanan elektronik yang 100% aman, jadi kami tidak dapat menjamin keamanan mutlak."
+    },
+    
+    "thirdPartyWebsites": {
+      "title": "Situs Web Pihak Ketiga",
+      "content": "Website kami mungkin berisi tautan ke situs web pihak ketiga. Kami tidak memiliki kendali atas, dan tidak bertanggung jawab atas konten, kebijakan privasi, atau praktik situs atau layanan pihak ketiga mana pun."
+    },
+    
+    "policyChanges": {
+      "title": "Perubahan pada Kebijakan Ini",
+      "content": "Kami dapat memperbarui Kebijakan Privasi kami dari waktu ke waktu. Kami akan memberi tahu Anda tentang perubahan apa pun dengan memposting Kebijakan Privasi baru di halaman ini dan memperbarui tanggal \"Terakhir diperbarui\" di bagian atas kebijakan ini."
+    },
+    
+    "contact": {
+      "title": "Hubungi Kami",
+      "intro": "Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami:",
+      "email": "Melalui email",
+      "phone": "Melalui telepon"
     }
   }
 }

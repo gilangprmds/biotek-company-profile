@@ -18,9 +18,9 @@ export default function Services() {
             </p>
           </div>
 
-          <div className="flex flex-wrap -mx-4">
-            <div className="w-full md:w-1/3 px-4 mb-8"  data-aos="fade-up">
-            <Link href={{ pathname: "/products", query: { category: "Arthoplasty" } }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 -mx-4">
+            <div className="w-full px-4 mb-8"  data-aos="fade-up">
+            <Link href={{ pathname: "/products", query: { category: "Arthroplasty" } }}>
                 <div className="bg-white lg:min-h-[350px] p-8 shadow-xl rounded-md text-center group hover:-translate-y-3">
                 <div
                   className="w-[100px] h-[100px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color"
@@ -33,12 +33,12 @@ export default function Services() {
                 className="w-full h-auto fill-primary-color"
                   />
                 </div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">{t('services.arthoplasty.title')}</h3>
-                    <p className="text-gray-600">{t('services.arthoplasty.description')}</p>
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">{t('services.arthroplasty.title')}</h3>
+                    <p className="text-gray-600">{t('services.arthroplasty.description')}</p>
                 </div>
               </Link>
             </div>
-            <div className="w-full md:w-1/3 px-4 mb-8"  data-aos="fade-up">
+            <div className="w-full px-4 mb-8"  data-aos="fade-up">
             <Link href={{ pathname: "/products", query: { category: "Trauma" } }}>
                 <div className="bg-white lg:min-h-[350px] p-8 shadow-xl rounded-md text-center group hover:-translate-y-3">
                 <div
@@ -57,8 +57,8 @@ export default function Services() {
                 </div>
               </Link>
             </div>
-            <div className="w-full md:w-1/3 px-4 mb-8" data-aos="fade-up">
-            <Link href={{ pathname: "/products", query: { category: "Sport Medicine" } }}>
+            <div className="w-full px-4 mb-8" data-aos="fade-up">
+            <Link href={{ pathname: "/products", query: { category: "Sports Medicine" } }}>
                 <div className="bg-white lg:min-h-[350px] p-8 shadow-xl rounded-md text-center group hover:-translate-y-3" >
                 <div
                   className="w-[100px] h-[100px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color"
@@ -70,10 +70,27 @@ export default function Services() {
                 height={100}
                 className="w-full h-auto fill-primary-color"
                   />
-                </div>                    <h3 className="text-xl font-bold text-gray-800 mb-2">{t('services.sport-medicine.title')}</h3>
-                    <p className="text-gray-600">{t('services.sport-medicine.description')}</p>
+                </div>                    <h3 className="text-xl font-bold text-gray-800 mb-2">{t('services.sports-medicine.title')}</h3>
+                    <p className="text-gray-600">{t('services.sports-medicine.description')}</p>
                 </div>
               </Link>
+            </div>
+            <div className="w-full px-4 mb-8"  data-aos="fade-up">
+                <div className="bg-white lg:min-h-[350px] p-8 shadow-xl rounded-md text-center group hover:-translate-y-3">
+                <div
+                  className="w-[100px] h-[100px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color"
+                >
+                  <Image
+                src="/img/pain-management2.png"
+                alt="Company Logo"
+                width={120} // atur sesuai ukuran yang kamu inginkan
+                height={120}
+                className="w-full h-auto fill-primary-color"
+                  />
+                </div>                    
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{t('services.pain-management.title')}</h3>
+                    <p className="text-gray-600">{t('services.pain-management.description')}</p>
+                </div>
             </div>
         </div>
 
