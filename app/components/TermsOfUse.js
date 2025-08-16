@@ -136,7 +136,7 @@ export default function TermsOfUse() {
                 </p>
                 <ul className="list-disc pl-6 mb-6 text-gray-600 space-y-2" data-aos="fade-up">
                   <li>{t('contact.email')}: cs@biotek.co.id</li>
-                  <li>{t('contact.phone')}: (021) 633-4005</li>
+                  <li>{t('contact.phone')}: (021) 633-4009</li>
                 </ul>
               </section>
             </div>

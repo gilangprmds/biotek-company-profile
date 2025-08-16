@@ -44,7 +44,7 @@ export default function Contact2() {
         </div>
         <div className="mt-4">
           <h2 className="font-semibold text-xs text-gray-900 tracking-widest">PHONE</h2>
-          <p className="text-sm leading-relaxed">(021) 633-4005</p>
+          <p className="text-sm leading-relaxed">(021) 633-4009</p>
         </div>
       </div>
     </div>
