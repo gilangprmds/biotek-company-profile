@@ -8,6 +8,7 @@ import Contact from "../components/Contact";
 import OurWork from "../components/OurWork";
 import Hero2 from "../components/Hero2";
 import Navbar2 from "../components/Navbar2";
+import ScrollToTop from "../components/ScrollToTop";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         <OurWork />
         <Contact />
       </main>
+      <ScrollToTop />
       <Footer2 />
     </>
   );

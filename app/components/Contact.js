@@ -136,7 +136,7 @@ const handleSubmit = async (e) => {
       <button 
       type='submit'
       disabled={loading}
-      className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" 
+      className="text-white bg-blue-600 border-0 py-2 px-6 focus:outline-none hover:bg-blue-700 rounded text-lg" 
       data-aos="fade-up">
       {loading ? t('form.sending') : t('form.submit')}
       </button>

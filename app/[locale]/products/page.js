@@ -1,3 +1,4 @@
+import ScrollToTop from "@/app/components/ScrollToTop";
 import Footer2 from "../../components/Footer2";
 import Navbar2 from "../../components/Navbar2";
 import Product2 from "../../components/products/Product2";
@@ -18,6 +19,7 @@ export default function Page(){
     {/* <Products /> */}
     <Product2 />
   </main>
+  <ScrollToTop />
   <Footer2 />
 </>    );
 }
