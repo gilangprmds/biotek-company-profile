@@ -26,7 +26,7 @@ const geistMono = localFont({
 
 export const metadata = {
   title: "Biotek Inti Korporindi",
-  description: "The best orthopedic implant distributor company",
+  description: "The best medical device distributor in indonesia.",
 };
 
 export default function RootLayout({ children }) {

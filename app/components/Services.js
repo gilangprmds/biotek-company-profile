@@ -76,6 +76,7 @@ export default function Services() {
               </Link>
             </div>
             <div className="w-full px-4 mb-8"  data-aos="fade-up">
+              <Link href={{ pathname: "/products", query: { category: "Pain Management" } }}>
                 <div className="bg-white lg:min-h-[350px] p-8 shadow-xl rounded-md text-center group hover:-translate-y-3">
                 <div
                   className="w-[100px] h-[100px] justify-self-center rounded-2xl mb-6 flex items-center justify-center text-[37px]/none bg-white text-primary-color"
@@ -91,6 +92,7 @@ export default function Services() {
                 <h3 className="text-xl font-bold text-gray-800 mb-2">{t('services.pain-management.title')}</h3>
                     <p className="text-gray-600">{t('services.pain-management.description')}</p>
                 </div>
+              </Link>
             </div>
         </div>
 
